@@ -3,7 +3,7 @@ import {Link} from "react-router-dom"
 import {TripContext} from "./TripProvider"
 
 export const TripList = (props) => {
-    const {trips, getTrips} = useContext(TripContext)
+    const {trips, getTrips, deleteTrip} = useContext(TripContext)
 
     useEffect(() => {
         getTrips()
@@ -19,13 +19,15 @@ export const TripList = (props) => {
         <article className="trips">
             {
                 trips.map(t => {
-                    return <section key={`t--${t.id}`} className="trip">
+                    return <section key={`trip--${t.id}`} className="trip">
                         <div>
                             <Link to={`/trips/${t.id}`}>{t.name}</Link>
                         </div>
                         <div>{t.hotel}</div>
                         <div>{t.date_start}</div>
                         <div>{t.date_end}</div>
+                        <button onClick={() => props.history.push(`/trips/edit/${t.id}`)}>Edit</button>
+                        <button onClick={() => deleteTrip(t)}>Delete</button>
                     </section>
                 })
             }
