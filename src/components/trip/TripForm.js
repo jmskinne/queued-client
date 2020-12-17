@@ -41,7 +41,7 @@ export const TripForm = (props) => {
                 hotel : trip.hotel,
                 date_start : trip.date_start,
                 date_end : trip.date_end
-           }).then(props.history.push(`/trips/${(props.match.params.tripId)}`))
+           }).then(props.history.push("/trips"))
        }
    }
 

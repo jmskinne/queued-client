@@ -14,7 +14,7 @@ import {RideDetail} from "./ride/RideDetail"
 
 import {ReviewProvider} from "./review/ReviewProvider"
 import { ReviewForm } from "./review/ReviewForm"
-
+import {ReviewList} from "./review/ReviewList"
 export const ApplicationViews = (props) => {
     return (
         <>
@@ -31,7 +31,8 @@ export const ApplicationViews = (props) => {
                     <Route exact path = "/waittimes" render={props => <WaitList {...props} /> } />
                     <Route exact path = "/rides/:rideId(\w+\d+)" render={props => <RideDetail {...props} /> } />
                     <Route exact path ="/ridereviews/new/:rideId(\w+\d+)" render={props => <ReviewForm {...props} /> } />
-                    <Route exact path ="/ridereviews/edit/:reviewId(\d+)" render={props => <ReviewForm {...props} /> } />                
+                    <Route exact path ="/ridereviews/edit/:reviewId(\d+)" render={props => <ReviewForm {...props} /> } />
+                    <Route exact path = "/ridereviews" render={props => <ReviewList {...props} /> } />                
                 </ReviewProvider>
             </RideProvider>
         </WaitProvider>

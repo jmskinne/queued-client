@@ -13,12 +13,12 @@ export const RideDetail = (props) => {
         const rideId = props.match.params.rideId
         getRideById(rideId).then(setRide)
         getReviewsByRide(rideId)
-    }, [])
+    }, [ride.id])
 
     return (
         <>
         <div>
-            <h1>{ride.name}</h1>
+            <h1>{ride?.name}</h1>
             <button onClick={() => props.history.push(`/ridereviews/new/${props.match.params.rideId}`)
             }>
                 New Review

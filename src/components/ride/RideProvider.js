@@ -32,7 +32,7 @@ export const RideProvider = (props) => {
                 "Content-Type" : "application/json "
             },
             body : JSON.stringify(newRide)
-        }).then(getRides)
+        }).then(() => getRideById(newRide.id))
     }
 
     return (
