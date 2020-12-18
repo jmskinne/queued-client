@@ -10,6 +10,9 @@ export const NavBar = (props) => {
             <li className="navbar__item">
                 <Link to= "/waittimes" >Wait Times</Link>
             </li>
+            <li className="navbar__item">
+                <Link to= "/ridereviews" >Ride Reviews</Link>
+            </li>
             {
                 
                     (localStorage.getItem("q_token") !== null) ?
