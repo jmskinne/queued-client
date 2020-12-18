@@ -1,22 +1,20 @@
 import {DateTime, Interval} from "luxon"
 import React, {useContext, useEffect, useState} from 'react'
-import { unstable_concurrentAct } from "react-dom/test-utils"
-
-
 import {TripContext} from "./TripProvider"
+import {ItineraryContext} from "../itinerary/ItineraryProvider"
 
 export const TripDetail = (props) => {
     const {getTripById} = useContext(TripContext)
+    const {createItinerary, updateItinerary, getItineraryById} = useContext(ItineraryContext)
 
     const [trip, setTrip] = useState({})
     const [tripDates, setTripDates] = useState([])
+    const [itinerary, setItinerary] = useState({})
 
     useEffect(() => {
         const tripId = parseInt(props.match.params.tripId)
         getTripById(tripId).then(setTrip)
     }, [])
-
-    
 
     useEffect(() => {
         function* days(interval) {
@@ -36,6 +34,37 @@ export const TripDetail = (props) => {
         }
         setTripDates(dateArr)
     }, [trip])
+
+    const editMode = props.match.params.hasOwnProperty("itineraryId")
+
+    useEffect(() => {
+        if(editMode) {
+            const itineraryId = parseInt(props.match.params.itineraryId)
+            getItineraryById(itineraryId).then(r => setItinerary(r))
+        }
+    }, [])
+
+    const itineraryHandler = (e) => {
+        const newItinerary = {...itinerary}
+        newItinerary[e.target.name] = e.target.value
+        setItinerary(newItinerary)
+    }
+
+    const saveItinerary = () => {
+        if(editMode) {
+            updateItinerary(parseInt(props.match.params.itineraryId), {
+                park_date : itinerary.park_date,
+                trip_id : itinerary.trip_id,
+            }).then(props.history.push(`/trips/${itinerary.trip_id}`))
+        } else {
+            const testDate = new Date(itinerary.park_date)
+            createItinerary({
+                
+                park_date : testDate.toISOString(),
+                trip_id : parseInt(props.match.params.tripId)
+            }).then(props.history.push(`/trips/${parseInt(props.match.params.tripId)}`))
+        }
+    }
     
     return (
         <>
@@ -49,7 +78,7 @@ export const TripDetail = (props) => {
             <form>
                 <fieldset>
                     <label htmlFor="park_date">Trip Date:</label>
-                    <select name="park_date" value={trip.park_date} >
+                    <select name="park_date" value={itinerary.park_date} onChange={itineraryHandler}>
                         <option value="0">Select Date</option>
                     
                         {
@@ -61,6 +90,8 @@ export const TripDetail = (props) => {
                         }
                     </select>
                 </fieldset>
+                <button type="submit" onClick={e => {e.preventDefault() 
+                    saveItinerary()}}>{editMode ? "Update" : "Save"}</button>
             </form>
         </>
     )

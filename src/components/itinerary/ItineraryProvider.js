@@ -74,6 +74,8 @@ export const ItineraryProvider = (props) => {
             createItinerary,
             updateItinerary,
             deleteItinerary
-        }}
+        }}>
+            {props.children}
+        </ItineraryContext.Provider>
     )
 }
