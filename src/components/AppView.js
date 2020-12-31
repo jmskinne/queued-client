@@ -17,16 +17,23 @@ import { ReviewForm } from "./review/ReviewForm"
 import {ReviewList} from "./review/ReviewList"
 
 import {ItineraryProvider} from "./itinerary/ItineraryProvider"
+import {RideItineraryProvider} from "./rideitinerary/RideItineraryProvider"
+import { RideItineraryList } from "./rideitinerary/RideItineraryList"
 
 export const ApplicationViews = (props) => {
     return (
         <>
         <TripProvider>
             <ItineraryProvider>
-                <Route exact path ="/trips"> <TripList {...props} /> </Route>
-                <Route exact path ="/trips/new"> <TripForm {...props} /> </Route>
-                <Route exact path ="/trips/edit/:tripId(\d+)" render={props => <TripForm {...props} /> } />
-                <Route exact path = "/trips/:tripId(\d+)" render={props => <TripDetail {...props} /> } />
+                    <RideItineraryProvider>
+                        <WaitProvider>
+                            <Route exact path ="/trips"> <TripList {...props} /> </Route>
+                            <Route exact path ="/trips/new"> <TripForm {...props} /> </Route>
+                            <Route exact path ="/trips/edit/:tripId(\d+)" render={props => <TripForm {...props} /> } />
+                            <Route exact path = "/trips/:tripId(\d+)" render={props => <TripDetail {...props} /> } />
+                            <Route exact path = "/rideitineraries/itinerary/:itineraryId(\d+)" render={props => <RideItineraryList {...props} />} />
+                        </WaitProvider>
+                </RideItineraryProvider>
             </ItineraryProvider>
         </TripProvider>
         <WaitProvider>

@@ -6,6 +6,7 @@ export const TripForm = (props) => {
 
     const [trip, setTrip] = useState({})
 
+
     const name = useRef(null)
     const hotel = useRef(null)
     const date_start = useRef(null)

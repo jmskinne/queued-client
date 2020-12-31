@@ -4,6 +4,7 @@ export const ItineraryContext = React.createContext()
 
 export const ItineraryProvider = (props) => {
     const [itineraries, setItineraries] = useState([])
+    const [tripItineraries, setTripItineraries] = useState([])
 
     const getAllItineraries = () => {
         return fetch("http://localhost:8000/itineraries", {
@@ -31,7 +32,7 @@ export const ItineraryProvider = (props) => {
             }
         })
         .then(r => r.json())
-        
+        .then(setTripItineraries)
     }
 
     const createItinerary = (newItinerary) => {
@@ -70,6 +71,7 @@ export const ItineraryProvider = (props) => {
             itineraries,
             getAllItineraries,
             getItineraryById,
+            tripItineraries,
             getItinerariesByTrip,
             createItinerary,
             updateItinerary,
