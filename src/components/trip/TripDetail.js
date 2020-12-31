@@ -15,19 +15,19 @@ export const TripDetail = (props) => {
     const [tripDates, setTripDates] = useState([])
     const [selectedDate, setDateFilter] = useState(0)
     const [check, setCheck] = useState([])
+    const [tripLength, setTripLength] = useState(0)
 
     const tripId = parseInt(props.match.params.tripId)
 
     useEffect(() => {
         getTripById(tripId).then(setTrip)
-        getItinerariesByTrip(tripId)
-    }, [])
+        getItinerariesByTrip(tripId).then(setTripLength(tripItineraries.length))
+        
+    }, [tripId])
 
     useEffect(() => {
-        if(selectedDate != "0") {
-            getRideItinerariesByItineraryId(parseInt(selectedDate))
-        }
-    }, [selectedDate])
+        getRideItinerariesByItineraryId(parseInt(selectedDate))
+    },[selectedDate])
 
     useEffect(() => {
         function* days(interval) {
@@ -48,16 +48,19 @@ export const TripDetail = (props) => {
         setTripDates(dateArr)
     }, [trip])
 
-    
-
     useEffect(() => {
-        const checkDates = tripDates.filter(d => tripItineraries.some(i => DateTime.fromISO(i.park_date).toLocaleString() === d))
+        //this checks what dates from the trip start and end match the tripItineraries
+        const checkDates = tripDates.filter(d => !tripItineraries.some(i => DateTime.fromISO(i.park_date).toLocaleString() === d))
         setCheck(checkDates)
+        console.log(checkDates)
     }, [tripDates])
 
+    useEffect(() => {
+        console.log(check, tripLength)
+    },[tripDates])
 
     useEffect(() => {
-        if (check.length !== tripDates.length) {
+        if (check.length !== tripDates.length && tripLength === 0) {
             tripDates.forEach(d => {
                 createItinerary({
                     park_date : new Date(d),
@@ -69,7 +72,26 @@ export const TripDetail = (props) => {
         }
                     
           
-    },[check])
+    },[tripDates])
+
+    // useEffect(() => {
+    //     if(tripDates.length !== tripLength) {
+    //         tripDates.forEach(d => {
+    //             createItinerary({
+    //             park_date : new Date(d),
+    //             trip_id : parseInt(props.match.params.tripId)
+    //             })
+    //         })
+    //     } else {
+    //         console.log(tripDates.length, tripLength)
+    //     }
+    // }, [tripDates])
+
+    
+
+    
+
+    
 
     return (
         <>
@@ -100,12 +122,12 @@ export const TripDetail = (props) => {
                         </select>
                     </div>
                     {
-                    rideItinerariesByDailyItinerary.map(r => {
-                        return <section key={r.id}>
-                            <div>{r.ride.name}</div>
-                            <div>{r.order}</div>
-                            <button onClick={() => deleteRideItinerary(r)}>Delete</button>
-                    </section>
+                        rideItinerariesByDailyItinerary.map(r => {
+                            return <section key={r.id}>
+                                <div>{r.ride.name}</div>
+                                <div>{r.order}</div>
+                                <button onClick={() => deleteRideItinerary(r)}>Delete</button>
+                            </section>
                 })
             }
                     
