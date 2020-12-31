@@ -3,18 +3,31 @@ import React, {useContext, useEffect, useState} from 'react'
 import {TripContext} from "./TripProvider"
 import {ItineraryContext} from "../itinerary/ItineraryProvider"
 
+import {RideItineraryContext} from "../rideitinerary/RideItineraryProvider"
+
+
 export const TripDetail = (props) => {
+    const {getRideItinerariesByItineraryId, rideItinerariesByDailyItinerary, deleteRideItinerary} = useContext(RideItineraryContext)
     const {getTripById} = useContext(TripContext)
-    const {createItinerary, updateItinerary, getItineraryById} = useContext(ItineraryContext)
+    const {getItinerariesByTrip, tripItineraries, createItinerary} = useContext(ItineraryContext)
 
     const [trip, setTrip] = useState({})
     const [tripDates, setTripDates] = useState([])
-    const [itinerary, setItinerary] = useState({})
+    const [selectedDate, setDateFilter] = useState(0)
+    const [check, setCheck] = useState([])
+
+    const tripId = parseInt(props.match.params.tripId)
 
     useEffect(() => {
-        const tripId = parseInt(props.match.params.tripId)
         getTripById(tripId).then(setTrip)
+        getItinerariesByTrip(tripId)
     }, [])
+
+    useEffect(() => {
+        if(selectedDate != "0") {
+            getRideItinerariesByItineraryId(parseInt(selectedDate))
+        }
+    }, [selectedDate])
 
     useEffect(() => {
         function* days(interval) {
@@ -35,37 +48,29 @@ export const TripDetail = (props) => {
         setTripDates(dateArr)
     }, [trip])
 
-    const editMode = props.match.params.hasOwnProperty("itineraryId")
+    
 
     useEffect(() => {
-        if(editMode) {
-            const itineraryId = parseInt(props.match.params.itineraryId)
-            getItineraryById(itineraryId).then(r => setItinerary(r))
-        }
-    }, [])
+        const checkDates = tripDates.filter(d => tripItineraries.some(i => DateTime.fromISO(i.park_date).toLocaleString() === d))
+        setCheck(checkDates)
+    }, [tripDates])
 
-    const itineraryHandler = (e) => {
-        const newItinerary = {...itinerary}
-        newItinerary[e.target.name] = e.target.value
-        setItinerary(newItinerary)
-    }
 
-    const saveItinerary = () => {
-        if(editMode) {
-            updateItinerary(parseInt(props.match.params.itineraryId), {
-                park_date : itinerary.park_date,
-                trip_id : itinerary.trip_id,
-            }).then(props.history.push(`/trips/${itinerary.trip_id}`))
-        } else {
-            const testDate = new Date(itinerary.park_date)
-            createItinerary({
-                
-                park_date : testDate.toISOString(),
-                trip_id : parseInt(props.match.params.tripId)
-            }).then(props.history.push(`/trips/${parseInt(props.match.params.tripId)}`))
+    useEffect(() => {
+        if (check.length !== tripDates.length) {
+            tripDates.forEach(d => {
+                createItinerary({
+                    park_date : new Date(d),
+                    trip_id : parseInt(props.match.params.tripId)
+                    })
+                })
+            } else {
+                console.log("equal") 
         }
-    }
-    
+                    
+          
+    },[check])
+
     return (
         <>
         <div>
@@ -74,25 +79,42 @@ export const TripDetail = (props) => {
             <div>{trip.date_start}</div>
             <div>{trip.date_end}</div>
         </div>
-        <h3>Daily Itinerary</h3>
-            <form>
-                <fieldset>
-                    <label htmlFor="park_date">Trip Date:</label>
-                    <select name="park_date" value={itinerary.park_date} onChange={itineraryHandler}>
-                        <option value="0">Select Date</option>
+        
+            <article>
+                    <h3>Park Days</h3>
+                    <div>
+                        <button onClick={() => props.history.push(`/rideitineraries/itinerary/${selectedDate}`)}>Add Rides</button>
+                        <select className="date_filter" onChange={e => {
+                            //filter is the itinerary id
+                            const filter = e.target.value
+                            setDateFilter(filter)
+                        }}>
+                            <option value="0">Select Park Date</option>
+                            {
+                                tripItineraries.map(t => (
+                                    <option key={t.id} value={t.id}>
+                                        {DateTime.fromISO(t.park_date).toLocaleString()}
+                                    </option>
+                                ))
+                            }
+                        </select>
+                    </div>
+                    {
+                    rideItinerariesByDailyItinerary.map(r => {
+                        return <section key={r.id}>
+                            <div>{r.ride.name}</div>
+                            <div>{r.order}</div>
+                            <button onClick={() => deleteRideItinerary(r)}>Delete</button>
+                    </section>
+                })
+            }
                     
-                        {
-                            tripDates.map(d => {
-                                return <option value={d}>
-                                    {d}
-                                </option>
-                                })
-                        }
-                    </select>
-                </fieldset>
-                <button type="submit" onClick={e => {e.preventDefault() 
-                    saveItinerary()}}>{editMode ? "Update" : "Save"}</button>
-            </form>
+            </article>
         </>
     )
 }
+
+
+
+
+

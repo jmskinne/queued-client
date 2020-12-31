@@ -24,10 +24,7 @@ export const ReviewForm = (props) => {
         setTheReview(newReview)
     }
 
-    useEffect(() => {
-        const test = props.match.params.rideId
-        console.log(test)
-    })
+    
 
     const saveReview = () => {
         if(editMode) {

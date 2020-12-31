@@ -10,7 +10,8 @@ export const WaitProvider = props => {
     const [hs, setHs] = useState([])
     const [ak, setAk] = useState([])
 
-    const cors = "https://cors-anywhere.herokuapp.com/"
+    // const cors = "https://cors-anywhere.herokuapp.com/"
+    const cors = "https://blooming-gorge-83806.herokuapp.com/"
 
 
     // const getParks = () => {
