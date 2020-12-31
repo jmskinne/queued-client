@@ -4,7 +4,7 @@ import {ReviewContext} from "../review/ReviewProvider"
 
 export const RideDetail = (props) => {
     const {getRideById} = useContext(RideContext)
-    const {rideReviews, getReviewsByRide, deleteRideReview, getItinerariesByTrip} = useContext(ReviewContext)
+    const {rideReviews, getReviewsByRide, deleteRideReview} = useContext(ReviewContext)
     
     
     const [ride, setRide] = useState({})
