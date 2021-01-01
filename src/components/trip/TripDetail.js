@@ -5,11 +5,14 @@ import {ItineraryContext} from "../itinerary/ItineraryProvider"
 
 import {RideItineraryContext} from "../rideitinerary/RideItineraryProvider"
 
+import {RideFavoriteContext} from "../ridefavorite/RideFavoriteProvider"
+
 
 export const TripDetail = (props) => {
     const {getRideItinerariesByItineraryId, rideItinerariesByDailyItinerary, deleteRideItinerary} = useContext(RideItineraryContext)
     const {getTripById} = useContext(TripContext)
     const {getItinerariesByTrip, tripItineraries, createItinerary} = useContext(ItineraryContext)
+    const {createRideFavorite} = useContext(RideFavoriteContext)
 
     const [trip, setTrip] = useState({})
     const [tripDates, setTripDates] = useState([])
@@ -127,6 +130,10 @@ export const TripDetail = (props) => {
                                 <div>{r.ride.name}</div>
                                 <div>{r.order}</div>
                                 <button onClick={() => deleteRideItinerary(r)}>Delete</button>
+                                <button onClick={() => {createRideFavorite({
+                                    ride_id : r.ride_id,
+                                    favorite : true
+                                })}}>Fav</button>
                             </section>
                 })
             }

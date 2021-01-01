@@ -5,12 +5,18 @@ import { NavBar } from "./nav/NavBar"
 import { Login } from "./auth/Login"
 import { Register } from "./auth/Register"
 
-export const Queue = () => (
+import {ProfileProvider} from "../components/profile/ProfileProvider"
+
+export const Queue = (props) => (
     <>
+    <ProfileProvider>
         <Route render={() => {
             if (localStorage.getItem("q_token")) {
                 return <>
-                    <Route render={NavBar} />
+                    
+                    
+                    
+                    <Route render={props => <NavBar {...props} /> } />
                     <Route render={props => <ApplicationViews {...props} />} />
                 </>
             } else {
@@ -20,5 +26,6 @@ export const Queue = () => (
 
         <Route path="/login" render={Login} />
         <Route path="/register" render={Register} />
+        </ProfileProvider>
     </>
 )
