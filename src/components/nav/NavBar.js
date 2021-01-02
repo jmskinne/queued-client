@@ -24,7 +24,7 @@ export const NavBar = (props) => {
             <li className="navbar__item">
                 <Link to= "/ridereviews" >Ride Reviews</Link>
             </li>
-            <li>{profile[0]?.user?.username}</li>
+            <li>{profile && profile[0].user?.username}</li>
             {
                 
                     (localStorage.getItem("q_token") !== null) ?

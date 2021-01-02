@@ -28,6 +28,9 @@ export const ReviewList = (props) => {
                     </section>
                 })
             }
+            {/* <iframe width="600" height="450" frameborder="0" 
+            src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyC0FVlhjU3_UIGyKc8DuhSUpgCleNP2aXE&origin=28.416243200345246,-81.5812048967371&destination=28.4199638504,-81.5846422864&waypoints=28.419418,-81.58498&mode=walking"
+            allowFullScreen ></iframe> */}
         </article>
         </>
     )
