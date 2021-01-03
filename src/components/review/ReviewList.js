@@ -1,23 +1,22 @@
-import React, {useContext, useEffect, useState} from "react"
+import React, {useContext, useEffect} from "react"
 import {Link} from "react-router-dom"
 import {ReviewContext} from "./ReviewProvider"
 
-import {ProfileContext} from "../profile/ProfileProvider"
+
 
 
 export const ReviewList = (props) => {
     const {allReviews, getRideReviews} = useContext(ReviewContext)
-    const {getProfile} = useContext(ProfileContext)
-    const [profile, setProfile] = useState({})
+    
 
     useEffect(() => {
         getRideReviews()
-        getProfile().then(r => setProfile(r))
+        
     }, [])
 
     return (
         <>
-        <h1>{profile[0]?.user?.username}</h1>
+        
         <article>
             {
                 allReviews.map(r => {

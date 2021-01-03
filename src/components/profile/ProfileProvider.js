@@ -1,9 +1,9 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 
 export const ProfileContext = React.createContext()
 
 export const ProfileProvider = (props) => {
-    
+    const [profile, setProfile] = useState({events:[]})
 
     const getProfile = () => {
         return fetch("http://localhost:8000/profile", {
@@ -12,12 +12,14 @@ export const ProfileProvider = (props) => {
             }
         })
         .then(r => r.json())
-        
+        .then(setProfile)
     }
+
+    useEffect(getProfile, [])
 
     return (
         <ProfileContext.Provider value={{
-            
+            profile,
             getProfile
         }}>
             {props.children}

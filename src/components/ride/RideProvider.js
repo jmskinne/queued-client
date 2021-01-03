@@ -4,6 +4,7 @@ export const RideContext = React.createContext()
 
 export const RideProvider = (props) => {
     const [rides, setRides] = useState([])
+    
 
     const getRides = () => {
         return fetch("http://localhost:8000/rides", {
@@ -35,12 +36,24 @@ export const RideProvider = (props) => {
         }).then(() => getRideById(newRide.id))
     }
 
+    const getRideBySearch = (search) => {
+        return fetch(`http://localhost:8000/rides?q=${search}`, {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("q_token")}`
+                }
+            }).then(r => r.json())
+            
+            
+    }
+
     return (
         <RideContext.Provider value={{
             rides,
             getRides,
             getRideById,
-            addRideFromAPI
+            addRideFromAPI,
+            getRideBySearch,
+            
         }}>
             {props.children}
         </RideContext.Provider>

@@ -108,6 +108,10 @@ export const TripDetail = (props) => {
         await updateRideItinerary(r.id, index + 1)
     }
 
+    const handleFavorite = (r) => {
+        
+    }
+
     return (
         <>
         <div>
@@ -151,7 +155,7 @@ export const TripDetail = (props) => {
                                                                 favorite : true
                                                             }).then(() => getRideFavoritesByBoolean(1))
                                                         }}>
-                                                        {favs?.find(f => f === r.ride_id) ? "Unfav" : "Fav"}</button>
+                                                        {favs?.find(f => f === r.ride_id) ?  "Unfav" : "Fav"} </button>
                                 
                                                     </section>
                                     
@@ -170,6 +174,10 @@ export const TripDetail = (props) => {
         </>
     )
 }
+
+
+
+
 
 
 
