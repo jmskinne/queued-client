@@ -63,8 +63,8 @@ export const RideItineraryList = (props) => {
         <>
         <button onClick={() => setParkSelected(1)}>Mk</button>
         <button onClick={() => setParkSelected(2)}>EP</button>
-        <button onClick={() => setParkSelected(3)}>AK</button>
-        <button onClick={() => setParkSelected(4)}>HS</button>
+        <button onClick={() => setParkSelected(3)}>HS</button>
+        <button onClick={() => setParkSelected(4)}>AK</button>
         <div>
             {
                 waitTimes.map(m => {

@@ -7,9 +7,13 @@ import {RideItineraryContext} from "../rideitinerary/RideItineraryProvider"
 
 import {RideFavoriteContext} from "../ridefavorite/RideFavoriteProvider"
 
+import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd'
+
+import "./Trip.css"
+
 
 export const TripDetail = (props) => {
-    const {getRideItinerariesByItineraryId, rideItinerariesByDailyItinerary, deleteRideItinerary} = useContext(RideItineraryContext)
+    const {getRideItinerariesByItineraryId, rideItinerariesByDailyItinerary, deleteRideItinerary, updateRideItinerary} = useContext(RideItineraryContext)
     const {getTripById} = useContext(TripContext)
     const {getItinerariesByTrip, tripItineraries, createItinerary} = useContext(ItineraryContext)
     const {createRideFavorite, getRideFavoritesByBoolean, rideFavorites} = useContext(RideFavoriteContext)
@@ -21,6 +25,8 @@ export const TripDetail = (props) => {
     const [tripLength, setTripLength] = useState(0)
     const [favs, setFavs] = useState()
 
+    
+
     const tripId = parseInt(props.match.params.tripId)
 
     useEffect(() => {
@@ -30,7 +36,7 @@ export const TripDetail = (props) => {
     }, [tripId])
 
     useEffect(() => {
-        getRideItinerariesByItineraryId(parseInt(selectedDate))
+        getRideItinerariesByItineraryId(parseInt(selectedDate)).then(r => updateRideOrder(r))
     },[selectedDate])
 
     useEffect(() => {
@@ -67,9 +73,8 @@ export const TripDetail = (props) => {
                     trip_id : parseInt(props.match.params.tripId)
                     })
                 })
-            } else {
-                console.log("equal") 
-        }
+            } 
+        
                     
           
     },[tripDates])
@@ -79,19 +84,29 @@ export const TripDetail = (props) => {
         getRideFavoritesByBoolean(1)
     }, [rideItinerariesByDailyItinerary])
 
-
+    
 
     useEffect(() => {
         const favRides = rideFavorites.map(f => f.ride_id)
         setFavs(favRides)
     }, [rideFavorites])
 
+    const [rideOrder, updateRideOrder] = useState([])
 
-    
+    const handleDragEnd = (result) => {
+        if(!result.destination) return;
+        
+        const items = Array.from(rideOrder)
+        
+        const [rideReordered] = items.splice(result.source.index, 1)
+        items.splice(result.destination.index, 0, rideReordered)
+        updateRideOrder(items)
+        console.log(rideOrder)
+    }
 
-    
-
-    
+    const handleSaveOrder = async (r, index) => {
+        await updateRideItinerary(r.id, index + 1)
+    }
 
     return (
         <>
@@ -107,7 +122,6 @@ export const TripDetail = (props) => {
                     <div>
                         <button onClick={() => props.history.push(`/rideitineraries/itinerary/${selectedDate}`)}>Add Rides</button>
                         <select className="date_filter" onChange={e => {
-                            //filter is the itinerary id
                             const filter = e.target.value
                             setDateFilter(filter)
                         }}>
@@ -121,23 +135,36 @@ export const TripDetail = (props) => {
                             }
                         </select>
                     </div>
-                    {
-                        rideItinerariesByDailyItinerary.map(r => {
-                            return <section key={r.id}>
-                                <div>{r.ride.name}</div>
-                                <div>{r.order}</div>
-                                <button onClick={() => deleteRideItinerary(r)}>Delete</button>
-                                <button onClick={() => {createRideFavorite({
-                                    ride_id : r.ride_id,
-                                    favorite : true
-                                }).then(() => getRideFavoritesByBoolean(1))
-                            }
+                    <DragDropContext onDragEnd={handleDragEnd}>
+                        <Droppable droppableId="theRide">
+                            {(provided) => (
+                                <div className="ride_order" {...provided.droppableProps} ref={provided.innerRef}>
+                                    {
+                                        rideOrder.map((r, index) => {
+                                            return <Draggable key={r.id} draggableId={r.ride_id} index={index} onClick={handleSaveOrder(r, index)}>
+                                                {(provided) => (
+                                                    <section className="ride" {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
+                                                        <div>{r.ride.name}</div>
+                                                            <button onClick={() => deleteRideItinerary(r).then(() => getRideItinerariesByItineraryId(selectedDate)).then(r => updateRideOrder(r))}>Delete</button>
+                                                            <button onClick={() => {createRideFavorite({
+                                                                ride_id : r.ride_id,
+                                                                favorite : true
+                                                            }).then(() => getRideFavoritesByBoolean(1))
+                                                        }}>
+                                                        {favs?.find(f => f === r.ride_id) ? "Unfav" : "Fav"}</button>
                                 
-                                }>
-                                    {favs?.find(f => f === r.ride_id) ? "Unfav" : "Fav"}</button>
-                            </section>
-                })
-            }
+                                                    </section>
+                                    
+                                                )}
+                                            </Draggable>
+                                            })
+                            
+                                    }
+                                {provided.placeholder}
+                            </div>
+                        )}
+                    </Droppable>
+                </DragDropContext>
                     
             </article>
         </>
