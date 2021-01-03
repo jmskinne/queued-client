@@ -5,17 +5,33 @@ import {RideContext} from "../ride/RideProvider"
 
 export const RideItineraryList = (props) => {
     const {createRideItinerary, deleteRideItinerary} = useContext(RideItineraryContext)
-    const {mk, getMkWait} = useContext(WaitContext)
+    const {getMkWait, getEpcotWait, getHsWait, getAkWait} = useContext(WaitContext)
     const {getRideById, addRideFromAPI} = useContext(RideContext)
-
-    const [count, setCount] = useState(0)
-
+    
     const itineraryId = parseInt(props.match.params.itineraryId)
 
-    useEffect(() => {
-        getMkWait()
-    }, [])
+    const [parkSelected, setParkSelected ] = useState([])
+    const [waitTimes, setWaitTimes] = useState([])
 
+    useEffect(() => {
+        if (parkSelected === 1) {
+            getMkWait().then(r => setWaitTimes(r))
+        }
+        else if (parkSelected === 2) {
+            getEpcotWait().then(r => setWaitTimes(r))
+        }
+        else if (parkSelected === 3) {
+            getHsWait().then(r => setWaitTimes(r))
+        }
+        else if (parkSelected === 4) {
+            getAkWait().then(r => setWaitTimes(r))
+        }
+        else if (parkSelected === 0) {
+            getMkWait().then(r => setWaitTimes(r))
+        }
+        
+    }, [parkSelected])
+    
     const rideCheckAndCreateRideItinerary = async (m) => {
         if (m) {
             const rideExists = await getRideById(m.id)
@@ -45,10 +61,13 @@ export const RideItineraryList = (props) => {
 
     return (
         <>
-        
+        <button onClick={() => setParkSelected(1)}>Mk</button>
+        <button onClick={() => setParkSelected(2)}>EP</button>
+        <button onClick={() => setParkSelected(3)}>AK</button>
+        <button onClick={() => setParkSelected(4)}>HS</button>
         <div>
             {
-                mk.map(m => {
+                waitTimes.map(m => {
                     return <section key={m.id}>
                         <div>{m.name}</div>
                         <button type="submit" onClick={() => rideCheckAndCreateRideItinerary(m)}>+</button>
@@ -62,29 +81,3 @@ export const RideItineraryList = (props) => {
     )
 }
 
-//working
-// return (
-//     <>
-    
-//     <div>
-//         {
-//             mk.map(m => {
-//                 return <section key={m.id}>
-//                     <div>{m.name}</div>
-//                     <button type="submit" onClick={e => {
-//                         e.preventDefault()
-//                         createRideItinerary({
-//                             itinerary_id : itineraryId,
-//                             ride_id : m.id,
-//                             order : 1
-//                         })
-//                         setCount(count + 1)
-//                     }}>+</button>
-//                     <div>{count}</div>
-//                     <button>-</button>
-//                 </section>
-//             })
-//         }
-//     </div>
-//     </>
-// 
