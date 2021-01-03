@@ -5,17 +5,21 @@ import {ItineraryContext} from "../itinerary/ItineraryProvider"
 
 import {RideItineraryContext} from "../rideitinerary/RideItineraryProvider"
 
+import {RideFavoriteContext} from "../ridefavorite/RideFavoriteProvider"
+
 
 export const TripDetail = (props) => {
     const {getRideItinerariesByItineraryId, rideItinerariesByDailyItinerary, deleteRideItinerary} = useContext(RideItineraryContext)
     const {getTripById} = useContext(TripContext)
     const {getItinerariesByTrip, tripItineraries, createItinerary} = useContext(ItineraryContext)
+    const {createRideFavorite, getRideFavoritesByBoolean, rideFavorites} = useContext(RideFavoriteContext)
 
     const [trip, setTrip] = useState({})
     const [tripDates, setTripDates] = useState([])
     const [selectedDate, setDateFilter] = useState(0)
     const [check, setCheck] = useState([])
     const [tripLength, setTripLength] = useState(0)
+    const [favs, setFavs] = useState()
 
     const tripId = parseInt(props.match.params.tripId)
 
@@ -49,15 +53,11 @@ export const TripDetail = (props) => {
     }, [trip])
 
     useEffect(() => {
-        //this checks what dates from the trip start and end match the tripItineraries
+        //not really necessary b/c was taken care of on the backend
         const checkDates = tripDates.filter(d => !tripItineraries.some(i => DateTime.fromISO(i.park_date).toLocaleString() === d))
         setCheck(checkDates)
-        console.log(checkDates)
     }, [tripDates])
 
-    useEffect(() => {
-        console.log(check, tripLength)
-    },[tripDates])
 
     useEffect(() => {
         if (check.length !== tripDates.length && tripLength === 0) {
@@ -74,18 +74,18 @@ export const TripDetail = (props) => {
           
     },[tripDates])
 
-    // useEffect(() => {
-    //     if(tripDates.length !== tripLength) {
-    //         tripDates.forEach(d => {
-    //             createItinerary({
-    //             park_date : new Date(d),
-    //             trip_id : parseInt(props.match.params.tripId)
-    //             })
-    //         })
-    //     } else {
-    //         console.log(tripDates.length, tripLength)
-    //     }
-    // }, [tripDates])
+    
+    useEffect(() => {
+        getRideFavoritesByBoolean(1)
+    }, [rideItinerariesByDailyItinerary])
+
+
+
+    useEffect(() => {
+        const favRides = rideFavorites.map(f => f.ride_id)
+        setFavs(favRides)
+    }, [rideFavorites])
+
 
     
 
@@ -127,6 +127,14 @@ export const TripDetail = (props) => {
                                 <div>{r.ride.name}</div>
                                 <div>{r.order}</div>
                                 <button onClick={() => deleteRideItinerary(r)}>Delete</button>
+                                <button onClick={() => {createRideFavorite({
+                                    ride_id : r.ride_id,
+                                    favorite : true
+                                }).then(() => getRideFavoritesByBoolean(1))
+                            }
+                                
+                                }>
+                                    {favs?.find(f => f === r.ride_id) ? "Unfav" : "Fav"}</button>
                             </section>
                 })
             }

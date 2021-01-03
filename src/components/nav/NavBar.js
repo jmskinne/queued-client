@@ -1,8 +1,19 @@
-import React from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
+import {ProfileContext} from "../profile/ProfileProvider"
+
 export const NavBar = (props) => {
+    
+    const {getProfile} = useContext(ProfileContext)
+    const [profile, setProfile] = useState()
+    
+    useEffect(() => {
+        getProfile().then(r => setProfile(r))
+    }, [])
+
     return (
+        <>
         <ul className="navbar">
             <li className="navbar__item">
                 <Link to= "/trips" >Trips</Link>
@@ -13,6 +24,7 @@ export const NavBar = (props) => {
             <li className="navbar__item">
                 <Link to= "/ridereviews" >Ride Reviews</Link>
             </li>
+            <li>{profile && profile[0].user?.username}</li>
             {
                 
                     (localStorage.getItem("q_token") !== null) ?
@@ -34,5 +46,6 @@ export const NavBar = (props) => {
                         </>
             }
         </ul>
+        </>
     )
 }
