@@ -38,12 +38,24 @@ export const RideFavoriteProvider = (props) => {
 
     }
 
+    const rideFavoriteAction = (ride_id, favorite) => {
+        return fetch(`http://localhost:8000/rides/${ride_id}/favorite`, {
+            method : "POST",
+            headers : {
+                "Authorization": `Token ${localStorage.getItem("q_token")}`,
+                "Content-Type" : "application/json "
+            },
+            body: JSON.stringify({favorite : favorite})
+        }).then(() => getRideFavoritesByBoolean(1))
+    }
+
     return (
         <RideFavoriteContext.Provider value={{
             rideFavorites,
             createRideFavorite,
             updateRideFavorite,
-            getRideFavoritesByBoolean
+            getRideFavoritesByBoolean,
+            rideFavoriteAction
         }}>
             {props.children}
         </RideFavoriteContext.Provider>

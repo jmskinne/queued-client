@@ -1,17 +1,12 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext} from "react"
 import { Link } from "react-router-dom"
 
 import {ProfileContext} from "../profile/ProfileProvider"
 
 export const NavBar = (props) => {
     
-    const {getProfile} = useContext(ProfileContext)
-    const [profile, setProfile] = useState()
+    const {profile} = useContext(ProfileContext)
     
-    useEffect(() => {
-        getProfile().then(r => setProfile(r))
-    }, [])
-
     return (
         <>
         <ul className="navbar">
@@ -22,9 +17,12 @@ export const NavBar = (props) => {
                 <Link to= "/waittimes" >Wait Times</Link>
             </li>
             <li className="navbar__item">
-                <Link to= "/ridereviews" >Ride Reviews</Link>
+                <Link to= "/rides" >Rides</Link>
             </li>
-            <li>{profile && profile[0].user?.username}</li>
+            {/* <li className="navbar__item">
+                <Link to= "/ridereviews" >Ride Reviews</Link>
+            </li> */}
+            <li>{profile[0]?.user?.username}</li>
             {
                 
                     (localStorage.getItem("q_token") !== null) ?

@@ -44,7 +44,7 @@ export const TripProvider = (props) => {
                 "Content-Type" : "application/json "
             },
             body : JSON.stringify(newTrip)
-        })
+        }).then(() => getTripById(tripId))
     }
 
     const deleteTrip = (trip) => {

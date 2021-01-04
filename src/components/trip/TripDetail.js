@@ -16,14 +16,14 @@ export const TripDetail = (props) => {
     const {getRideItinerariesByItineraryId, rideItinerariesByDailyItinerary, deleteRideItinerary, updateRideItinerary} = useContext(RideItineraryContext)
     const {getTripById} = useContext(TripContext)
     const {getItinerariesByTrip, tripItineraries, createItinerary} = useContext(ItineraryContext)
-    const {createRideFavorite, getRideFavoritesByBoolean, rideFavorites} = useContext(RideFavoriteContext)
+    const {createRideFavorite, getRideFavoritesByBoolean, rideFavorites, updateRideFavorite} = useContext(RideFavoriteContext)
 
     const [trip, setTrip] = useState({})
     const [tripDates, setTripDates] = useState([])
     const [selectedDate, setDateFilter] = useState(0)
     const [check, setCheck] = useState([])
     const [tripLength, setTripLength] = useState(0)
-    const [favs, setFavs] = useState()
+    const [rideOrder, updateRideOrder] = useState([])
 
     
 
@@ -74,24 +74,23 @@ export const TripDetail = (props) => {
                     })
                 })
             } 
-        
-                    
-          
     },[tripDates])
+
+    const [fav, setFav] = useState()
+
+    useEffect(() => {
+        const testTest = rideOrder.map(r => rideFavorites.find(f => f.ride_id === r.ride_id))
+        setFav(testTest)
+    }, [tripDates, rideOrder])
+
+    useEffect(() => {
+        console.log(fav)
+    })
 
     
     useEffect(() => {
         getRideFavoritesByBoolean(1)
     }, [rideItinerariesByDailyItinerary])
-
-    
-
-    useEffect(() => {
-        const favRides = rideFavorites.map(f => f.ride_id)
-        setFavs(favRides)
-    }, [rideFavorites])
-
-    const [rideOrder, updateRideOrder] = useState([])
 
     const handleDragEnd = (result) => {
         if(!result.destination) return;
@@ -146,12 +145,19 @@ export const TripDetail = (props) => {
                                                     <section className="ride" {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
                                                         <div>{r.ride.name}</div>
                                                             <button onClick={() => deleteRideItinerary(r).then(() => getRideItinerariesByItineraryId(selectedDate)).then(r => updateRideOrder(r))}>Delete</button>
-                                                            <button onClick={() => {createRideFavorite({
-                                                                ride_id : r.ride_id,
-                                                                favorite : true
-                                                            }).then(() => getRideFavoritesByBoolean(1))
-                                                        }}>
-                                                        {favs?.find(f => f === r.ride_id) ? "Unfav" : "Fav"}</button>
+                                                            <button onClick={() => 
+                                                                {const fav = rideFavorites.find(f => f.ride_id === r.ride_id)
+                                                                    
+                                                                    if (fav?.favorite === false || fav?.favorite === undefined) {
+                                                                        createRideFavorite({
+                                                                            ride_id : r.ride_id,
+                                                                            favorite : true
+                                                                        }).then(() => getRideFavoritesByBoolean(1))
+                                                                    } else {
+                                                                        updateRideFavorite(fav.id, false).then(() => getRideFavoritesByBoolean(1))
+                                                                    }
+                                                        }}>Fav</button>
+                                                        
                                 
                                                     </section>
                                     
@@ -170,6 +176,10 @@ export const TripDetail = (props) => {
         </>
     )
 }
+
+
+
+
 
 
 

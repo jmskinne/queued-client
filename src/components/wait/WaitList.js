@@ -40,6 +40,7 @@ export const WaitList = (props) => {
                     name : m.name,
                     lat : m.meta.latitude,
                     longitude : m.meta.longitude
+                    
                 })
             } else {
                 props.history.push(`/rides/${m.id}`)

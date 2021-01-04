@@ -54,7 +54,7 @@ export const ReviewProvider = (props) => {
                 "Content-Type" : "application/json "
             },
             body : JSON.stringify(newReview)
-        })
+        }).then(() => getReviewsByRide(newReview.ride_id))
     }
 
     const deleteRideReview = (review) => {
