@@ -4,6 +4,7 @@ export const RideContext = React.createContext()
 
 export const RideProvider = (props) => {
     const [rides, setRides] = useState([])
+    const [sortedRides, setSortedRides] = useState([])
     
 
     const getRides = () => {
@@ -46,6 +47,20 @@ export const RideProvider = (props) => {
             
     }
 
+    const getSortedRides = () => {
+        return fetch("http://localhost:8000/rides", {
+        headers: {
+            "Authorization": `Token ${localStorage.getItem("q_token")}`
+            }
+        })
+        .then(r => r.json())
+        .then(ridesToSort => {
+            return ridesToSort.sort((a,b) => b.average_rating - a.average_rating).slice(0,3)
+        })
+        .then(setSortedRides)
+        
+    }
+
     return (
         <RideContext.Provider value={{
             rides,
@@ -53,6 +68,8 @@ export const RideProvider = (props) => {
             getRideById,
             addRideFromAPI,
             getRideBySearch,
+            sortedRides,
+            getSortedRides
             
         }}>
             {props.children}
