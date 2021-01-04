@@ -19,9 +19,9 @@ export const NavBar = (props) => {
             <li className="navbar__item">
                 <Link to= "/rides" >Rides</Link>
             </li>
-            <li className="navbar__item">
+            {/* <li className="navbar__item">
                 <Link to= "/ridereviews" >Ride Reviews</Link>
-            </li>
+            </li> */}
             <li>{profile[0]?.user?.username}</li>
             {
                 
