@@ -24,7 +24,7 @@ import { RideItineraryList } from "./rideitinerary/RideItineraryList"
 
 import {RideFavoriteProvider} from "./ridefavorite/RideFavoriteProvider"
 
-import {ProfileProvider} from "./profile/ProfileProvider"
+import {LandingPage} from "./landing/LandingPage"
 
 export const ApplicationViews = (props) => {
     return (
@@ -40,7 +40,7 @@ export const ApplicationViews = (props) => {
                                     <Route exact path ="/trips/edit/:tripId(\d+)" render={props => <TripForm {...props} /> } />
                                     <Route exact path = "/trips/:tripId(\d+)" render={props => <TripDetail {...props} /> } />
                                     <Route exact path = "/rideitineraries/itinerary/:itineraryId(\d+)" render={props => <RideItineraryList {...props} />} />
-                                    
+                                    <Route exact path = "/" render={props => <LandingPage {...props} /> } />
                                 </RideFavoriteProvider>
                             </RideProvider>
                         </WaitProvider>

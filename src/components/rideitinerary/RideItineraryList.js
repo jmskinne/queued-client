@@ -2,16 +2,19 @@ import React, {useContext, useEffect, useState} from "react"
 import {RideItineraryContext} from "./RideItineraryProvider"
 import {WaitContext} from "../wait/WaitProvider"
 import {RideContext} from "../ride/RideProvider"
+import {ItineraryContext} from "../itinerary/ItineraryProvider"
 
 export const RideItineraryList = (props) => {
-    const {createRideItinerary, deleteRideItinerary} = useContext(RideItineraryContext)
+    const {createRideItinerary} = useContext(RideItineraryContext)
     const {getMkWait, getEpcotWait, getHsWait, getAkWait} = useContext(WaitContext)
     const {getRideById, addRideFromAPI} = useContext(RideContext)
+    const {getItineraryById} = useContext(ItineraryContext)
     
     const itineraryId = parseInt(props.match.params.itineraryId)
 
     const [parkSelected, setParkSelected ] = useState([])
     const [waitTimes, setWaitTimes] = useState([])
+    const [backButton, setBackButton] = useState({})
 
     useEffect(() => {
         if (parkSelected === 1) {
@@ -31,6 +34,10 @@ export const RideItineraryList = (props) => {
         }
         
     }, [parkSelected])
+
+    useEffect(() => {
+        getItineraryById(itineraryId).then(r => setBackButton(r))
+    }, [])
     
     const rideCheckAndCreateRideItinerary = async (m) => {
         if (m) {
@@ -71,12 +78,13 @@ export const RideItineraryList = (props) => {
                     return <section key={m.id}>
                         <div>{m.name}</div>
                         <button type="submit" onClick={() => rideCheckAndCreateRideItinerary(m)}>+</button>
-                        
                         <button>-</button>
+                        
                     </section>
                 })
             }
         </div>
+        <button onClick={() => props.history.push(`/trips/${backButton.trip_id}`)}>Back</button> 
         </>
     )
 }

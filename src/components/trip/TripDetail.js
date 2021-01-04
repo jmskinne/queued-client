@@ -16,7 +16,7 @@ export const TripDetail = (props) => {
     const {getRideItinerariesByItineraryId, rideItinerariesByDailyItinerary, deleteRideItinerary, updateRideItinerary} = useContext(RideItineraryContext)
     const {getTripById} = useContext(TripContext)
     const {getItinerariesByTrip, tripItineraries, createItinerary} = useContext(ItineraryContext)
-    const {createRideFavorite, getRideFavoritesByBoolean, rideFavorites, updateRideFavorite} = useContext(RideFavoriteContext)
+    const {createRideFavorite, getRideFavoritesByBoolean, rideFavorites, updateRideFavorite, rideFavoriteAction} = useContext(RideFavoriteContext)
 
     const [trip, setTrip] = useState({})
     const [tripDates, setTripDates] = useState([])
@@ -24,6 +24,7 @@ export const TripDetail = (props) => {
     const [check, setCheck] = useState([])
     const [tripLength, setTripLength] = useState(0)
     const [rideOrder, updateRideOrder] = useState([])
+   
 
     
 
@@ -76,31 +77,16 @@ export const TripDetail = (props) => {
             } 
     },[tripDates])
 
-    const [fav, setFav] = useState()
-
-    useEffect(() => {
-        const testTest = rideOrder.map(r => rideFavorites.find(f => f.ride_id === r.ride_id))
-        setFav(testTest)
-    }, [tripDates, rideOrder])
-
-    useEffect(() => {
-        console.log(fav)
-    })
-
-    
     useEffect(() => {
         getRideFavoritesByBoolean(1)
     }, [rideItinerariesByDailyItinerary])
 
     const handleDragEnd = (result) => {
         if(!result.destination) return;
-        
         const items = Array.from(rideOrder)
-        
         const [rideReordered] = items.splice(result.source.index, 1)
         items.splice(result.destination.index, 0, rideReordered)
         updateRideOrder(items)
-        console.log(rideOrder)
     }
 
     const handleSaveOrder = async (r, index) => {
@@ -144,19 +130,18 @@ export const TripDetail = (props) => {
                                                 {(provided) => (
                                                     <section className="ride" {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
                                                         <div>{r.ride.name}</div>
-                                                            <button onClick={() => deleteRideItinerary(r).then(() => getRideItinerariesByItineraryId(selectedDate)).then(r => updateRideOrder(r))}>Delete</button>
-                                                            <button onClick={() => 
-                                                                {const fav = rideFavorites.find(f => f.ride_id === r.ride_id)
-                                                                    
-                                                                    if (fav?.favorite === false || fav?.favorite === undefined) {
-                                                                        createRideFavorite({
-                                                                            ride_id : r.ride_id,
-                                                                            favorite : true
-                                                                        }).then(() => getRideFavoritesByBoolean(1))
-                                                                    } else {
-                                                                        updateRideFavorite(fav.id, false).then(() => getRideFavoritesByBoolean(1))
-                                                                    }
-                                                        }}>Fav</button>
+                                                        <button onClick={() => deleteRideItinerary(r).then(() => getRideItinerariesByItineraryId(selectedDate)).then(r => updateRideOrder(r))}>Delete</button>
+                                                        
+                                                        {
+                                                            (r.ride?.average_rating === null) ? <div></div> : <div>Rating: {(r.ride?.average_rating * 2).toFixed() / 2}</div>
+                                                        }
+                                                        
+                                                        {
+                                                            rideFavorites.find(f => f.ride_id === r.ride_id) ?
+                                                            <button onClick={() => {rideFavoriteAction(r.ride_id, true).then(() => getRideItinerariesByItineraryId(selectedDate)).then(r => updateRideOrder(r))}}>UnFav</button>
+                                                            :
+                                                            <button onClick={() => {rideFavoriteAction(r.ride_id, true).then(() => getRideItinerariesByItineraryId(selectedDate)).then(r => updateRideOrder(r))}}>Favorite Ride</button>
+                                                        }
                                                         
                                 
                                                     </section>
@@ -173,6 +158,7 @@ export const TripDetail = (props) => {
                 </DragDropContext>
                     
             </article>
+            
         </>
     )
 }

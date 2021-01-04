@@ -1,9 +1,13 @@
 import React, {useState} from "react"
+import {DateTime} from "luxon"
+
 
 export const TripContext = React.createContext()
 
 export const TripProvider = (props) => {
+    const theTimeIsNow = DateTime.local().toISODate()
     const [trips, setTrips] = useState([])
+    const [threeTrips, setThreeTrips] = useState([])
 
 
     const getTrips = () => {
@@ -56,6 +60,21 @@ export const TripProvider = (props) => {
         }).then(getTrips)
     }
 
+    const getThreeUpcomingTrips = () => {
+        return fetch("http://localhost:8000/trips", {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("q_token")}`
+            }
+        })
+        .then(r => r.json())
+        .then(tripsToSort => {
+            return tripsToSort.filter(t => t.date_start >= theTimeIsNow).slice(0,3)
+        })
+        .then(setThreeTrips)
+    }
+
+
+
     return (
         <TripContext.Provider value={{
             trips,
@@ -63,7 +82,9 @@ export const TripProvider = (props) => {
             createTrip,
             updateTrip,
             deleteTrip,
-            getTripById
+            getTripById,
+            threeTrips,
+            getThreeUpcomingTrips
         }}>
             {props.children}
         </TripContext.Provider>
