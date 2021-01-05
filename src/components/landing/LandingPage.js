@@ -1,19 +1,24 @@
 import React, {useContext, useEffect, useState} from "react"
-import {DateTime} from "luxon"
+
+
 
 import {Link} from "react-router-dom"
 import {TripContext} from "../trip/TripProvider"
 import {RideContext} from "../ride/RideProvider"
+import { RideFavoriteContext } from "../ridefavorite/RideFavoriteProvider"
 
 export const LandingPage = (props) => {
     const {threeTrips, getThreeUpcomingTrips} = useContext(TripContext)
     const {sortedRides, getSortedRides} = useContext(RideContext)
+    const {rideFavorites, getRideFavoritesByBoolean} = useContext(RideFavoriteContext)
 
     useEffect(() => {
         getThreeUpcomingTrips()
         getSortedRides()
-        
+        getRideFavoritesByBoolean(1)
     }, [])
+
+    
 
     return (
         <>
@@ -86,9 +91,20 @@ export const LandingPage = (props) => {
                             <div class="bg-yellow-100 shadow-xl rounded-lg overflow-hidden" key={r.ride}>
                                 <div class= "flex justify-between p-4 border-b">
                                     <p class="uppercase tracking-wide text-lg font-bold text-gray-700"><Link to={`/rides/${r.ride}`}>{r.name}</Link></p>
-                                    <svg class="h-6 w-6 text-gray-600 fill-current mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                        <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
-                                    </svg>
+                                    {
+                                        (rideFavorites.find(f => f.ride_id === r.ride)) 
+                                        ? 
+                                        <svg class="h-6 w-6 text-gray-600 fill-current mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                            <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
+                                        </svg>
+                                        :
+                                        
+                                        <svg class="h-6 w-6 text-gray-600 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018a2 2 0 01.485.06l3.76.94m-7 10v5a2 2 0 002 2h.096c.5 0 .905-.405.905-.904 0-.715.211-1.413.608-2.008L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5" />
+                                      </svg>
+                                        
+                                    }
+                                    
                                 </div>
                                 <div class="flex flex-wrap overflow-hidden xl:-mx-2">
                                     <div class="w-full overflow-hidden xl:my-2 xl:px-2">
@@ -97,9 +113,17 @@ export const LandingPage = (props) => {
 
                                         }
                                         <div class="flex justify-center pt-1">
-                                            <svg class="h-6 w-6 text-gray-600 fill-current mr-3"xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                                <path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                                            </svg>
+                                            {
+                                                (r.average_rating === null) ? 
+                                                '' 
+                                                :
+                                                ''
+                                                //iterate stars based on rating
+                                                // <svg class="h-6 w-6 text-gray-600 fill-current mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                //     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                                                // </svg>
+                                            }
+                                            
                                         </div>
                                     </div>
                                 </div>

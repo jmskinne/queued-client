@@ -7,48 +7,6 @@ export const NavBar = (props) => {
     
     const {profile} = useContext(ProfileContext)
     
-    // return (
-    //     <>
-    //     <ul className="navbar">
-    //         <li className="navbar__item">
-    //             <Link to= "/" >Home</Link>
-    //         </li>
-    //         <li className="navbar__item">
-    //             <Link to= "/trips" >Trips</Link>
-    //         </li>
-    //         <li className="navbar__item">
-    //             <Link to= "/waittimes" >Wait Times</Link>
-    //         </li>
-    //         <li className="navbar__item">
-    //             <Link to= "/rides" >Rides</Link>
-    //         </li>
-    //         {/* <li className="navbar__item">
-    //             <Link to= "/ridereviews" >Ride Reviews</Link>
-    //         </li> */}
-    //         <li>{profile[0]?.user?.username}</li>
-    //         {
-                
-    //                 (localStorage.getItem("q_token") !== null) ?
-    //                     <li className="nav-item">
-    //                         <button className="nav-link fakeLink"
-    //                             onClick={() => {
-    //                                 localStorage.removeItem("q_token")
-    //                                 props.history.push({ pathname: "/" })
-    //                             }}
-    //                         >Logout</button>
-    //                     </li> :
-    //                     <>
-    //                         <li className="nav-item">
-    //                             <Link className="nav-link" to="/login">Login</Link>
-    //                         </li>
-    //                         <li className="nav-item">
-    //                             <Link className="nav-link" to="/register">Register</Link>
-    //                         </li>
-    //                     </>
-    //         }
-    //     </ul>
-    //     </>
-    // )
     return (
     <nav class="bg-gray-800">
         <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -60,7 +18,7 @@ export const NavBar = (props) => {
                 </div>
                 <div class="sm:block sm:ml-6">
                 <div class="flex space-x-4">
-                    <div class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium mr-4">Welcome, {profile[0]?.user.username}</div>
+                    <div class="text-gray-300 px-3 py-2 rounded-md text-sm font-medium mr-4">Welcome, {profile[0]?.user.username}</div>
                     <a href="#" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"><Link to= "/" >Home</Link></a>
                     <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"><Link to= "/trips" >Trips</Link></a>
                     <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"><Link to= "/waittimes" >Wait Times</Link></a>
@@ -79,9 +37,7 @@ export const NavBar = (props) => {
                             </>
                         }
                         
-                        
-                        
-                    
+                        {/* <img class="inline-block h-8 w-8 rounded-full ring-2 ring-white " src={(`${profile[0]?.profile_image_url}`)} /> */}          
                 </div>
                 </div>
             </div>
