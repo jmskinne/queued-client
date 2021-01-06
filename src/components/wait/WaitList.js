@@ -50,24 +50,6 @@ export const WaitList = (props) => {
         
     }
 
-    // return (
-    //     <>
-    //     <button onClick={() => setParkSelected(1)}>Mk</button>
-    //     <button onClick={() => setParkSelected(2)}>EP</button>
-    //     <button onClick={() => setParkSelected(3)}>HS</button>
-    //     <button onClick={() => setParkSelected(4)}>AK</button>
-    //     <article>
-    //         {
-    //             waitTimes.map(m => {
-    //                 return <section key={`ride--${m.id}`}>
-    //                     <div><Link to={`/rides/${m.id}`} onClick={() => {rideCheck(m)}}>{m.name}</Link></div>
-    //                     <div>{m.waitTime}</div>
-    //                 </section>
-    //             })
-    //         }
-    //     </article>
-    //     </>
-    // )
     return (
         <>
         <div class="bg-warm-grey-050">

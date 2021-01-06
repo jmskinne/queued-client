@@ -1,4 +1,4 @@
-import {DateTime, Interval} from "luxon"
+import {DateTime, Interval, Duration} from "luxon"
 import React, {useContext, useEffect, useState} from 'react'
 import {TripContext} from "./TripProvider"
 import {ItineraryContext} from "../itinerary/ItineraryProvider"
@@ -24,6 +24,9 @@ export const TripDetail = (props) => {
     const [check, setCheck] = useState([])
     const [tripLength, setTripLength] = useState(0)
     const [rideOrder, updateRideOrder] = useState([])
+    const theTimeIsNow = DateTime.local()
+    const [countDown, setCountDown] = useState([])
+    
    
 
     
@@ -51,12 +54,15 @@ export const TripDetail = (props) => {
         const start = DateTime.fromISO(`${trip.date_start}`)
         const end = DateTime.fromISO(`${trip.date_end}`)
         let interval = Interval.fromDateTimes(start,end)
+        let daysTillVacation = Interval.fromDateTimes(theTimeIsNow, start).toDuration().toObject()
         
         let dateArr = []
         for (var d of days(interval)) {
             dateArr.push(d.toLocaleString())
         }
         setTripDates(dateArr)
+        setCountDown(daysTillVacation) 
+        
     }, [trip])
 
     useEffect(() => {
@@ -64,6 +70,8 @@ export const TripDetail = (props) => {
         const checkDates = tripDates.filter(d => !tripItineraries.some(i => DateTime.fromISO(i.park_date).toLocaleString() === d))
         setCheck(checkDates)
     }, [tripDates])
+
+    
 
 
     useEffect(() => {
@@ -93,6 +101,7 @@ export const TripDetail = (props) => {
         await updateRideItinerary(r.id, index + 1)
     }
 
+
     return (
         <>
         <div>
@@ -100,6 +109,11 @@ export const TripDetail = (props) => {
             <div>{trip.hotel}</div>
             <div>{trip.date_start}</div>
             <div>{trip.date_end}</div>
+            <div>Days Till Vacation {Math.round(countDown.milliseconds / (60*60*24*1000))}</div>
+            
+            
+            
+            
         </div>
         
             <article>
