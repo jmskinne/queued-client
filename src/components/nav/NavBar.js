@@ -18,22 +18,22 @@ export const NavBar = (props) => {
                 </div>
                 <div class="sm:block sm:ml-6">
                 <div class="flex space-x-4">
-                    <div class="text-warm-grey-900 px-3 py-2 rounded-md text-sm font-medium mr-4">Welcome, {profile[0]?.user.username}</div>
-                    <a href="#" class="text-warm-gray-900 hover:bg-yellow-vivid-050 hover:text-warm-grey-900 px-3 py-2 rounded-md text-sm font-medium"><Link to="/" >Home</Link></a>
-                    <a href="#" class="text-warm-grey-900 hover:bg-yellow-vivid-050 hover:text-warm-grey-900 px-3 py-2 rounded-md text-sm font-medium"><Link to="/trips" >Trips</Link></a>
-                    <a href="#" class="text-warm-grey-900 hover:bg-yellow-vivid-050 hover:text-warm-grey-900 px-3 py-2 rounded-md text-sm font-medium"><Link to="/waittimes" >Wait Times</Link></a>
-                    <a href="#" class="text-warm-grey-900 hover:bg-yellow-vivid-050 hover:text-warm-grey-900 px-3 py-2 rounded-md text-sm font-medium"><Link to="/rides" >Rides</Link></a>
+                    <div class="text-warm-grey-900 px-3 py-2 rounded-md text-sm font-bold mr-4">Welcome, {profile[0]?.user.username}</div>
+                    <a href="#" class="text-warm-gray-900 hover:bg-yellow-vivid-050 hover:text-warm-grey-900 px-3 py-2 rounded-md text-sm font-bold"><Link to="/" >Home</Link></a>
+                    <a href="#" class="text-warm-grey-900 hover:bg-yellow-vivid-050 hover:text-warm-grey-900 px-3 py-2 rounded-md text-sm font-bold"><Link to="/trips" >Trips</Link></a>
+                    <a href="#" class="text-warm-grey-900 hover:bg-yellow-vivid-050 hover:text-warm-grey-900 px-3 py-2 rounded-md text-sm font-bold"><Link to="/waittimes" >Wait Times</Link></a>
+                    <a href="#" class="text-warm-grey-900 hover:bg-yellow-vivid-050 hover:text-warm-grey-900 px-3 py-2 rounded-md text-sm font-bold"><Link to="/rides" >Rides</Link></a>
                     
                         {
                             (localStorage.getItem("q_token") !== null) ? 
                             <button onClick={() => {
                                 localStorage.removeItem("q_token")
                                 props.history.push({ pathname: "/" })
-                            }} class="text-warm-grey-900 hover:bg-yellow-vivid-050 hover:text-warm-grey-900 px-3 py-2 rounded-md text-sm font-medium">Sign Out</button> 
+                            }} class="text-warm-grey-900 hover:bg-yellow-vivid-050 hover:text-warm-grey-900 px-3 py-2 rounded-md text-sm font-bold">Sign Out</button> 
                             : 
                             <>
-                            <a href="#" class="text-warm-grey-900 hover:bg-yellow-vivid-050 hover:text-warm-grey-900 px-3 py-2 rounded-md text-sm font-medium"><Link to= "/login" >Login</Link></a>
-                            <a href="#" class="text-warm-grey-900 hover:bg-yellow-vivid-050 hover:text-warm-grey-900 px-3 py-2 rounded-md text-sm font-medium"><Link to= "/register" >Register</Link></a>
+                            <a href="#" class="text-warm-grey-900 hover:bg-yellow-vivid-050 hover:text-warm-grey-900 px-3 py-2 rounded-md text-sm font-bold"><Link to= "/login" >Login</Link></a>
+                            <a href="#" class="text-warm-grey-900 hover:bg-yellow-vivid-050 hover:text-warm-grey-900 px-3 py-2 rounded-md text-sm font-bold"><Link to= "/register" >Register</Link></a>
                             </>
                         }
                         

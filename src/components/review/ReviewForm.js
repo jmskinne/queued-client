@@ -43,30 +43,6 @@ export const ReviewForm = (props) => {
         }
     }
 
-    // return (
-    //     <form className="reviewForm">
-    //         <fieldset>
-    //             <div>
-    //                 <label htmlFor="rating">Rating: </label>
-    //                 <input type="text" ref={rating} name="rating" required autoFocus value={theReview.rating} onChange={reviewHandler} />
-    //             </div>
-    //         </fieldset>
-    //         <fieldset>
-    //             <div>
-    //                 <label htmlFor="review">Review: </label>
-    //                 <input type="text" ref={review} name="review" required autoFocus value={theReview.review} onChange={reviewHandler} />
-    //             </div>
-    //         </fieldset>
-    //         <button type="submit"
-    //             onClick={e => {
-    //                 e.preventDefault()
-    //                 saveReview()
-    //             }}
-    //             className="btn btn-form">
-    //             {editMode ? "Update Review" : "Save Review"}
-    //         </button>
-    //     </form>
-    // )
     return (
         <div class="bg-warm-grey-200">
             <div class="text-center">
