@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useRef, useState} from "react"
 import {ReviewContext} from "./ReviewProvider"
 
 export const ReviewForm = (props) => {
-    const {addRideReview, updateRideReview , getReviewById } = useContext(ReviewContext)
+    const {addRideReview, updateRideReview , getReviewById, messageError } = useContext(ReviewContext)
 
     const [theReview, setTheReview] = useState({})
 
@@ -23,6 +23,8 @@ export const ReviewForm = (props) => {
         newReview[e.target.name] = e.target.value
         setTheReview(newReview)
     }
+
+    console.log(messageError)
 
     
 

@@ -98,7 +98,7 @@ export const WaitList = (props) => {
                                                             <p class="text-warm-grey-100 text-lg font-bold uppercase">Closed</p>
                                                         </div>
                                                         :
-                                                        <p class="uppercase tracking-wide text-lg pt-2 font-bold text-warm-grey-700 text-center">{w.waitTime}</p>
+                                                        <p class="uppercase tracking-wide text-lg pt-2 font-bold text-warm-grey-700 text-center">{w.waitTime} minute wait</p>
                                                     }
                                                 </div>
                                                 </div>
