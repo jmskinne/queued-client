@@ -101,6 +101,33 @@ export const RideList = (props) => {
                                                 }
                                             
                                         </div>
+                                        <div class="flex justify-center pt-1">
+                                            {
+                                                (r.ride.includes('Magic')) ? 
+                                                <div class="text-xs px-3 bg-red-500 text-warm-grey-050 rounded-full p-0.5" >Magic Kingdom</div> 
+                                                : 
+                                                ''
+                                            }
+                                            {
+                                                (r.ride.includes('Animal')) ? 
+                                                <div class="text-xs px-3 bg-lime-green-300 text-warm-grey-800 rounded-full p-0.5" >Animal Kingdom</div> 
+                                                : 
+                                                ''
+                                            }
+                                            {
+                                                (r.ride.includes('Epcot')) ? 
+                                                <div class="text-xs px-3 bg-cyan-300 text-warm-grey-800 rounded-full p-0.5" >Epcot</div> 
+                                                : 
+                                                ''
+                                            }
+                                            {
+                                                (r.ride.includes('Hollywood')) ? 
+                                                <div class="text-xs px-3 bg-yellow-vivid-300 text-warm-grey-800 rounded-full p-0.5" >Hollywood Studios</div> 
+                                                : 
+                                                ''
+                                            }
+                                        
+                                        </div>
                                     </div>
                                 </div>
                             </div>
