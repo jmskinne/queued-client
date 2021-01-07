@@ -52,7 +52,7 @@ export const LandingPage = (props) => {
             <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="https://cdn1.parksmedia.wdprapps.disney.com/resize/mwImage/1/1280/720/75/dam/wdpro-assets/gallery/destinations/magic-kingdom/magic-kingdom-gallery00.jpg?1550520271803" alt="" />
         </div>
     </div>
-    <div class="py-12 bg-warm-grey-050">
+    <div class="py-12 bg-warm-grey-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="lg:text-center">
                 <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-warm-grey-900 sm:text-4xl">
@@ -64,7 +64,7 @@ export const LandingPage = (props) => {
             </div>
         </div>
     </div>
-    <div class="bg-warm-grey-050">
+    <div class="bg-warm-grey-200">
     <div class="max-w-7xl mx-auto py-2 sm:px-6 lg:px-8">
         <div class="flex items-center justify-center">
             {
@@ -120,8 +120,8 @@ export const LandingPage = (props) => {
                                         </button>
                                         :
                                         <button onClick={() => {rideFavoriteAction(r.ride, true)}}>
-                                            <svg class="h-6 w-6 text-warm-grey-500 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018a2 2 0 01.485.06l3.76.94m-7 10v5a2 2 0 002 2h.096c.5 0 .905-.405.905-.904 0-.715.211-1.413.608-2.008L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5" />
+                                            <svg class="text-warm-grey-500 h-6 w-6 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                                             </svg>
                                         </button>
                                         

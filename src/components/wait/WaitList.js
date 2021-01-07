@@ -52,7 +52,7 @@ export const WaitList = (props) => {
 
     return (
         <>
-        <div class="bg-warm-grey-050">
+        <div class="bg-warm-grey-200">
             <div class="max-w-7xl mx-auto py-2 sm:px-6 lg:px-8">
                 <div class="lg:text-center">
                     <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-warm-grey-900 sm:text-4xl">
@@ -95,7 +95,7 @@ export const WaitList = (props) => {
                                                        (w.status === "Closed")
                                                         ?
                                                         <div class="bg-red-700">
-                                                            <p class="text-warm-grey-900 text-lg font-bold uppercase">Closed</p>
+                                                            <p class="text-warm-grey-100 text-lg font-bold uppercase">Closed</p>
                                                         </div>
                                                         :
                                                         <p class="uppercase tracking-wide text-lg pt-2 font-bold text-warm-grey-700 text-center">{w.waitTime}</p>

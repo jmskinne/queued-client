@@ -30,7 +30,7 @@ export const RideList = (props) => {
 
     return (
         <>
-        <div class="bg-warm-grey-050">
+        <div class="bg-warm-grey-200">
             <div class="max-w-7xl mx-auto py-2 sm:px-6 lg:px-8 mt-12">
                 <div class="lg:text-center">
                     <div class="mt-2 mb-6 flex justify-center">
@@ -62,9 +62,11 @@ export const RideList = (props) => {
                                                     </svg></button>
                                                     :
                                             
-                                                    <button onClick={() => {rideFavoriteAction(r.ride, true)}}><svg class="h-6 w-6 text-warm-grey-500 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018a2 2 0 01.485.06l3.76.94m-7 10v5a2 2 0 002 2h.096c.5 0 .905-.405.905-.904 0-.715.211-1.413.608-2.008L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5" />
-                                                    </svg></button>
+                                                    <button onClick={() => {rideFavoriteAction(r.ride, true)}}>
+                                                        <svg class="text-warm-grey-500 h-6 w-6 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                                        </svg>
+                                                    </button>
                                             
                                                 }
 
@@ -81,7 +83,7 @@ export const RideList = (props) => {
                                             {               
                                                 (r.average_rating === null) 
                                                 ?
-                                                <p class="uppercase tracking-wide text-lg pt-2 font-bold text-warm-grey-700 text-center">Be the First to Review</p>  
+                                                <p class="tracking-wide text-lg pt-2 font-bold text-warm-grey-700 text-center">Be the First to Review</p>  
                                                 : 
                                                 <p class="uppercase tracking-wide text-4xl pt-2 font-bold text-warm-grey-700 text-center">{Math.round(r.average_rating).toFixed(1)}</p>
 

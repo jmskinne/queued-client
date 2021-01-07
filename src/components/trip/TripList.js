@@ -12,7 +12,7 @@ export const TripList = (props) => {
 
     return (
         <>
-        <div class="bg-warm-grey-050">
+        <div class="bg-warm-grey-200">
             <div class="max-w-7xl mx-auto py-2 sm:px-6 lg:px-8">
                 <div class="lg:text-center">
                     <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-warm-grey-900 sm:text-4xl">
@@ -21,7 +21,7 @@ export const TripList = (props) => {
                     <div class="rounded-md mt-4 mb-4">
                         <button onClick={() => {props.history.push({pathname : "trips/new"})
                             }} class="px-8 py-3 border-warm-grey-900 border-transparent text-base font-medium rounded-md text-warm-grey-900 bg-lime-green-400 hover:bg-lime-green-900 hover:text-warm-grey-050 md:py-4 md:text-lg md:px-10">
-                            Get started on Your Next Trip
+                            Get Started on Your Next Trip
                             </button>
                     </div>
                     
