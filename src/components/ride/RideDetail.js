@@ -102,7 +102,10 @@ export const RideDetail = (props) => {
                                                             <p class="tracking-wide text-2xl  font-bold text-warm-grey-600 text-center mt-2">Rating: {r.rating}</p>
                                                         </div>
                                                         <div class="w-4/12 overflow-hidden">
-                                                            <p class="text-warm-grey-300 mt-2">Reviewer: {r.reviewer?.user.username}</p>
+                                                            <div class="text-warm-grey-300 mt-2 "><span class="mr-1">{r.reviewer?.user.username} </span>
+                                                            <img class="inline-block h-8 w-8 rounded-full ring-2 ring-white mb-2" src={(`${profile[0]?.profile_image_url}`)} />
+                                                            </div>
+                                                            
                                                         </div>
     
                                                     </div>

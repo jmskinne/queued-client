@@ -8,6 +8,7 @@ import {RideItineraryContext} from "../rideitinerary/RideItineraryProvider"
 
 import {RideFavoriteContext} from "../ridefavorite/RideFavoriteProvider"
 
+import {WaitContext} from "../wait/WaitProvider"
 
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd'
 
@@ -19,7 +20,7 @@ export const TripDetail = (props) => {
     const {getTripById} = useContext(TripContext)
     const {getItinerariesByTrip, tripItineraries, createItinerary} = useContext(ItineraryContext)
     const {getRideFavoritesByBoolean, rideFavorites, rideFavoriteAction} = useContext(RideFavoriteContext)
-
+    const {getAllWaitTimes, allWaitTimes} = useContext(WaitContext)
 
     const [trip, setTrip] = useState({})
     const [tripDates, setTripDates] = useState([])
@@ -30,16 +31,19 @@ export const TripDetail = (props) => {
     const theTimeIsNow = DateTime.local()
     const [countDown, setCountDown] = useState([])
 
+    
+
     const tripId = parseInt(props.match.params.tripId)
 
     useEffect(() => {
         getTripById(tripId).then(setTrip)
         getItinerariesByTrip(tripId).then(setTripLength(tripItineraries.length))
-        
+        getAllWaitTimes()
     }, [tripId])
 
     useEffect(() => {
         getRideItinerariesByItineraryId(parseInt(selectedDate)).then(r => updateRideOrder(r))
+        
     },[selectedDate])
 
     useEffect(() => {
@@ -90,6 +94,7 @@ export const TripDetail = (props) => {
 
     const handleDragEnd = (result) => {
         if(!result.destination) return;
+        
         const items = Array.from(rideOrder)
         const [rideReordered] = items.splice(result.source.index, 1)
         items.splice(result.destination.index, 0, rideReordered)
@@ -143,20 +148,21 @@ export const TripDetail = (props) => {
                     </div>
                 </div>
             </div>
-            <div class="max-w-7xl mx-auto py-2 sm:px-6 lg:px-8 mt-12">
+            <div class="max-w">
                 <DragDropContext onDragEnd={handleDragEnd}>
                     <Droppable droppableId="theRide">
                         {(provided) => (
-                            <div class="ride_order flex flex-col items-center" {...provided.draggableProps} ref={provided.innerRef}>
+                            <div class="ride_order items-center h-screen" {...provided.draggableProps} ref={provided.innerRef}>
                                
                     {
                         rideOrder.map((r, index) => {
+                            const theWait = allWaitTimes.find(w => w.id === r.ride_id) || {}
                             return <Draggable key={r.id} draggableId={r.ride_id} index={index} onClick={handleSaveOrder(r, index)}>
                                 {(provided) => (
-                                    <div class="max-w-sm w-full sm:w-1/2 lg:w-1/3 py-6 px-3">
-                                        <div class="bg-yellow-vivid-050 shadow-xl rounded-lg overflow-hidden ride"
+                                    <div class="my-2 px-2 w-lg overflow-hidden m-52">
+                                        <div class="bg-yellow-vivid-050 shadow-xl rounded-lg overflow-hidden py-6 mb-2"
                                             {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-                                            <div class= "flex justify-between p-4 border-b">
+                                            <div class= "flex justify-evenly overflow-hidden xl:-mx-3">
                                             {
                                                 (rideFavorites.find(f => f.ride_id === r.ride_id)) 
                                                 ? 
@@ -180,22 +186,29 @@ export const TripDetail = (props) => {
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                             </svg></Link>
 
-                                            </div>
-                                            <div class="flex flex-wrap overflow-hidden xl:-mx-3">
-                                                <div class="w-1/3 overflow-hidden xl:my-3 xl:px-3">
-                                                    <p class="text-md font-bold text-warm-grey-700 text-center">Order: {index + 1}</p>
-                                                </div>
-                                                <div class="w-1/3 overflow-hidden xl:my-3 xl:px-3">
+                                            
+                                           
+                                             <p class="text-md font-bold text-warm-grey-700 text-center">Order: {index + 1}</p>
+                                             {
+                                                 (theWait.status === "Closed" || theWait.status === "Refurbishment")
+                                                 ?
+                                                 
+                                                    <p class="text-red-900 text-lg font-bold uppercase">Closed</p>
+                                                
+                                                 :
+                                                 <p class="text-md font-bold text-warm-grey-700 text-center">{theWait.waittime}</p>
+                                             }
+
+                                             
                                                     
-                                                </div>
-                                                <div class="w-1/3 overflow-hidden xl:my-3 xl:px-3">
+                                                
+                                                
                                                     <button onClick={() => deleteRideItinerary(r).then(() => getRideItinerariesByItineraryId(selectedDate)).then(r => updateRideOrder(r))}>
                                                         <svg class="h5 w-5 text-red-600 ml-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                         </svg>
                                                     </button>
-                                                </div>
-                                            </div>
+                                               </div>
                                     </div>
                                     </div>
                                     
@@ -211,6 +224,7 @@ export const TripDetail = (props) => {
             </Droppable>
         </DragDropContext>
             </div>
+            
             </div>
             
         

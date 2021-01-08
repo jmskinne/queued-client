@@ -9,7 +9,7 @@ export const NavBar = (props) => {
     
     return (
     <nav class="bg-red-500">
-        <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+        <div class="max-w-max mx-auto px-2 sm:px-6 lg:px-8">
             <div class="relative flex items-center justify-between h-16">
             <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                 
@@ -34,7 +34,7 @@ export const NavBar = (props) => {
                             </>
                         }
                         
-                        {/* <img class="inline-block h-8 w-8 rounded-full ring-2 ring-white " src={(`${profile[0]?.profile_image_url}`)} /> */}          
+                        <img class="inline-block h-8 w-8 rounded-full ring-2 ring-white " src={(`${profile[0]?.profile_image_url}`)} />          
                 </div>
                 </div>
             </div>
