@@ -53,13 +53,13 @@ export const RideItineraryList = (props) => {
                         createRideItinerary({
                             itinerary_id : itineraryId,
                             ride_id : m.id,
-                            order : 1
+                            order : 50
                 }))
             } else {
                 createRideItinerary({
                     itinerary_id : itineraryId,
                     ride_id : m.id,
-                    order : 1
+                    order : 50
                 
             })
             

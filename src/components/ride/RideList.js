@@ -43,7 +43,7 @@ export const RideList = (props) => {
     return (
         <>
         <div class="bg-warm-grey-200">
-            <div class="max-w-7xl mx-auto py-2 sm:px-6 lg:px-8 mt-12">
+            <div class="max-w-7xl mx-auto py-2 sm:px-6 lg:px-8 pt-6">
                 <div class="lg:text-center">
                     <div class="mt-2 mb-6 flex justify-center">
                         <p class="text-2xl leading-8 font-extrabold  text-warm-grey-900 sm:text-4xl">Ride Search:<span class="mr-4"></span> </p>
