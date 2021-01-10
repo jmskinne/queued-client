@@ -68,7 +68,7 @@ export const TripProvider = (props) => {
         })
         .then(r => r.json())
         .then(tripsToSort => {
-            return tripsToSort.filter(t => t.date_start >= theTimeIsNow).slice(0,3)
+            return tripsToSort.filter(t => t.date_start >= theTimeIsNow).slice(0,3) 
         })
         .then(setThreeTrips)
     }

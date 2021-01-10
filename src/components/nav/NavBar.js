@@ -33,8 +33,18 @@ export const NavBar = (props) => {
                             <a href="#" class="text-warm-grey-900 hover:bg-yellow-vivid-050 hover:text-warm-grey-900 px-3 py-2 rounded-md text-sm font-bold"><Link to= "/register" >Register</Link></a>
                             </>
                         }
-                        
-                        <img class="inline-block h-8 w-8 rounded-full ring-2 ring-white " src={(`${profile[0]?.profile_image_url}`)} />          
+                        {
+                            profile[0]?.profile_image_url === "" 
+                            ?
+                            // <img class="inline-block h-8 w-8 rounded-full ring-2 ring-white" src="https://t4.ftcdn.net/jpg/02/29/75/83/240_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg" alt="Profile Img" />
+                            ''
+                            :
+                            <img class="inline-block h-8 w-8 rounded-full ring-2 ring-white " src={(`${profile[0]?.profile_image_url}`)} />  
+                            
+                            
+                            
+                        }
+                                
                 </div>
                 </div>
             </div>

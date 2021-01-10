@@ -20,7 +20,7 @@ export const TripDetail = (props) => {
     const {getTripById} = useContext(TripContext)
     const {getItinerariesByTrip, tripItineraries, createItinerary} = useContext(ItineraryContext)
     const {getRideFavoritesByBoolean, rideFavorites, rideFavoriteAction} = useContext(RideFavoriteContext)
-    const {getAllWaitTimes, allWaitTimes} = useContext(WaitContext)
+    const {getAllWaitTimes, allWaitTimes, createHistoricalWait} = useContext(WaitContext)
 
     const [trip, setTrip] = useState({})
     const [tripDates, setTripDates] = useState([])
@@ -31,6 +31,8 @@ export const TripDetail = (props) => {
     const theTimeIsNow = DateTime.local()
     const [countDown, setCountDown] = useState([])
 
+    const [showMap, setShowMap] = useState(false)
+    const [parsedMap, setParsedMap] = useState('')
     
 
     const tripId = parseInt(props.match.params.tripId)
@@ -38,13 +40,28 @@ export const TripDetail = (props) => {
     useEffect(() => {
         getTripById(tripId).then(setTrip)
         getItinerariesByTrip(tripId).then(setTripLength(tripItineraries.length))
-        getAllWaitTimes()
+        // getAllWaitTimes()
     }, [tripId])
 
     useEffect(() => {
         getRideItinerariesByItineraryId(parseInt(selectedDate)).then(r => updateRideOrder(r))
         
     },[selectedDate])
+
+    useEffect(() => {
+        if (rideOrder.length > 1) {
+            let origin = `${rideOrder[0].ride.lat},${rideOrder[0].ride.longitude}`
+            let destination = `${rideOrder[rideOrder.length - 1].ride.lat},${rideOrder[rideOrder.length - 1].ride.longitude}`
+            let ways = rideOrder.map(w => `${w.ride.lat},${w.ride.longitude}`).slice(1, rideOrder.length - 1).join("|").split().toString()
+            let mapUrl = `www.google.com/maps/embed/v1/directions?key=&mode=walking&origin=${origin}&destination=${destination}&waypoints=${ways}`
+            setParsedMap(mapUrl)
+            console.log(mapUrl)
+
+            
+        }
+    }, [selectedDate, rideOrder])
+
+   
 
     useEffect(() => {
         function* days(interval) {
@@ -105,6 +122,16 @@ export const TripDetail = (props) => {
         await updateRideItinerary(r.id, index + 1)
     }
 
+    // const iframe = (map) => {
+    //     return <iframe 
+    //         width="600" 
+    //         height="450" 
+    //         allowFullScreen
+    //         src={map} />
+            
+        
+    // }
+
     return (
         <div class="bg-warm-grey-200">
             
@@ -147,7 +174,21 @@ export const TripDetail = (props) => {
                         rounded-md text-warm-grey-900 bg-lime-green-400 hover:bg-lime-green-900 hover:text-warm-grey-050" onClick={() => props.history.push(`/rideitineraries/itinerary/${selectedDate}`)}>Add Rides</button>
                     </div>
                 </div>
+                <div><button onClick={() => setShowMap(true)}>Show Map</button>
+                </div>
+                
+                
             </div>
+            <div class="flex flex-wrap items-center justify-center">
+                {
+                    showMap ? 
+                    <iframe width="600" height="450" 
+                    srcDoc={parsedMap}
+                    />
+                    : 
+                    ''
+                }</div>
+            
             <div class="max-w">
                 <DragDropContext onDragEnd={handleDragEnd}>
                     <Droppable droppableId="theRide">
@@ -196,19 +237,15 @@ export const TripDetail = (props) => {
                                                     <p class="text-red-900 text-lg font-bold uppercase">Closed</p>
                                                 
                                                  :
-                                                 <p class="text-md font-bold text-warm-grey-700 text-center">{theWait.waittime}</p>
+                                                 <p class="text-md font-bold text-warm-grey-700 text-center">{theWait.waitTime} mintues</p>
                                              }
 
-                                             
-                                                    
-                                                
-                                                
-                                                    <button onClick={() => deleteRideItinerary(r).then(() => getRideItinerariesByItineraryId(selectedDate)).then(r => updateRideOrder(r))}>
-                                                        <svg class="h5 w-5 text-red-600 ml-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                        </svg>
-                                                    </button>
-                                               </div>
+                                             <button onClick={() => deleteRideItinerary(r).then(() => getRideItinerariesByItineraryId(selectedDate)).then(r => updateRideOrder(r))}>
+                                                <svg class="h5 w-5 text-red-600 ml-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                            </button>
+                                        </div>
                                     </div>
                                     </div>
                                     
@@ -224,6 +261,7 @@ export const TripDetail = (props) => {
             </Droppable>
         </DragDropContext>
             </div>
+            
             
             </div>
             

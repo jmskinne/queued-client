@@ -10,6 +10,7 @@ export const RideList = (props) => {
     const {rideFavoriteAction, getRideFavoritesByBoolean, rideFavorites} = useContext(RideFavoriteContext)
     const [filteredRides, setFilteredRides] = useState([])
     const [searchRides, setRideSearch] = useState('')
+    const [parkSearch, setParkSearch] = useState('')
     
     useEffect(() => {
         getRides()
@@ -27,6 +28,24 @@ export const RideList = (props) => {
             setFilteredRides(rides)
         }
     }, [searchRides, rides])
+
+    useEffect(() => {
+        if(parkSearch === 1) {
+            const m = rides.filter(r => r.ride.includes('Magic'))
+            setFilteredRides(m)
+        } else if (parkSearch === 2) {
+            const m = rides.filter(r => r.ride.includes('Animal'))
+            setFilteredRides(m)
+        } else if (parkSearch === 3) {
+            const m = rides.filter(r => r.ride.includes('Epcot'))
+            setFilteredRides(m)
+        } else if (parkSearch === 4) {
+            const m = rides.filter(r => r.ride.includes('Hollywood'))
+            setFilteredRides(m)
+        } else if(parkSearch === 5 || parkSearch === '') {
+            setFilteredRides(rides)
+        }
+    }, [parkSearch])
 
     const handleStars = (num) => {
         if(num !== null) {
@@ -53,10 +72,20 @@ export const RideList = (props) => {
                     </div>
                 </div>
             
+                
                 <div class="lg:text-center">
-                    <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-warm-grey-900 sm:text-4xl mb-6">
-                        Rides
-                    </p>
+                <div class="flex justify-center pt-1">
+                    <button onClick={() => setParkSearch(1)}><div class="text-xs px-3 mx-2 bg-red-500 text-warm-grey-050 rounded-full p-0.5" >Magic Kingdom</div></button>
+                    <button onClick={() => setParkSearch(2)}><div class="text-xs px-3 mx-2 bg-lime-green-300 text-warm-grey-800 rounded-full p-0.5" >Animal Kingdom</div></button>
+                    <button onClick={() => setParkSearch(3)}><div class="text-xs px-3 mx-2 bg-cyan-300 text-warm-grey-800 rounded-full p-0.5" >Epcot</div></button>
+                    <button onClick={() => setParkSearch(4)}><div class="text-xs px-3 mx-2 bg-yellow-vivid-300 text-warm-grey-800 rounded-full p-0.5" >Hollywood Studios</div></button>
+                    <button onClick={() => setParkSearch(5)}><div class="text-xs px-3 mx-2 bg-cyan-800 text-warm-grey-050 rounded-full p-0.5" >All Parks</div></button>
+                </div>                          
+                                               
+                                               
+                                           
+                                          
+                    
                 </div>
                 <div class="flex flex-wrap items-center justify-center">
                     {
@@ -112,25 +141,25 @@ export const RideList = (props) => {
                                         <div class="flex justify-center pt-1">
                                             {
                                                 (r.ride.includes('Magic')) ? 
-                                                <div class="text-xs px-3 bg-red-500 text-warm-grey-050 rounded-full p-0.5" >Magic Kingdom</div> 
+                                                <button onClick={() => setParkSearch(1)}><div class="text-xs px-3 mx-2 bg-red-500 text-warm-grey-050 rounded-full p-0.5" >Magic Kingdom</div></button>
                                                 : 
                                                 ''
                                             }
                                             {
                                                 (r.ride.includes('Animal')) ? 
-                                                <div class="text-xs px-3 bg-lime-green-300 text-warm-grey-800 rounded-full p-0.5" >Animal Kingdom</div> 
+                                                <button onClick={() => setParkSearch(2)}><div class="text-xs px-3 mx-2 bg-lime-green-300 text-warm-grey-800 rounded-full p-0.5" >Animal Kingdom</div></button>
                                                 : 
                                                 ''
                                             }
                                             {
                                                 (r.ride.includes('Epcot')) ? 
-                                                <div class="text-xs px-3 bg-cyan-300 text-warm-grey-800 rounded-full p-0.5" >Epcot</div> 
+                                                <button onClick={() => setParkSearch(3)}><div class="text-xs px-3 mx-2 bg-cyan-300 text-warm-grey-800 rounded-full p-0.5" >Epcot</div></button>
                                                 : 
                                                 ''
                                             }
                                             {
                                                 (r.ride.includes('Hollywood')) ? 
-                                                <div class="text-xs px-3 bg-yellow-vivid-300 text-warm-grey-800 rounded-full p-0.5" >Hollywood Studios</div> 
+                                                <button onClick={() => setParkSearch(4)}><div class="text-xs px-3 mx-2 bg-yellow-vivid-300 text-warm-grey-800 rounded-full p-0.5" >Hollywood Studios</div></button> 
                                                 : 
                                                 ''
                                             }

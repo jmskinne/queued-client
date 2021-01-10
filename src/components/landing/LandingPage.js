@@ -112,6 +112,96 @@ export const LandingPage = (props) => {
         <div class="max-w-7xl mx-auto py-2 sm:px-6 lg:px-8 mt-12">
         <div class="lg:text-center">
                 <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-warm-grey-900 sm:text-4xl mb-6">
+                    Your Favorite Rides
+                </p>
+            </div>
+            <div class="flex items-center justify-center">
+                {
+                    rideFavorites.map(rf => {
+                        return <div class="max-w-sm w-full sm:w-1/2 lg:w-1/3 py-6 px-3">
+                            <div class="bg-yellow-vivid-050 shadow-xl rounded-lg overflow-hidden" key={rf.id}>
+                                <div class= "flex justify-between p-4 border-b">
+                                    
+                                    {
+                                        (rf.favorite) 
+                                        ? 
+                                        <button onClick={() => {rideFavoriteAction(rf.ride_id, true)}}>
+                                            <svg class="h-6 w-6 text-red-600 fill-current mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                            <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
+                                            </svg>
+                                        </button>
+                                        :
+                                        <button onClick={() => {rideFavoriteAction(rf.ride_id, true)}}>
+                                            <svg class="text-warm-grey-500 h-6 w-6 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                            </svg>
+                                        </button>
+                                        
+                                    }
+                                    <p class="uppercase tracking-wide text-lg font-bold text-warm-grey-900">{rf.ride.name}</p>
+                                    <Link to={`/rides/${rf.ride_id}`}><svg class="h-6 w-6 text-cyan-400 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                    </svg></Link>
+
+                                </div>
+                                <div class="flex flex-wrap overflow-hidden xl:-mx-2">
+                                    <div class="w-full overflow-hidden xl:my-2 xl:px-2">
+                                        {               
+                                            (rf.ride.average_rating === null) ? 
+                                            <p class="tracking-wide text-lg pt-2 font-bold text-warm-grey-700 text-center">Be the First to Review</p>
+                                            : 
+                                            <p class="uppercase tracking-wide text-4xl pt-2 font-bold text-warm-grey-700 text-center">{Math.round(rf.ride.average_rating).toFixed(1)}</p>
+
+                                        }
+                                        <div class="flex justify-center pt-1">
+                                            {
+                                                (rf.ride.average_rating === null) ? 
+                                                ''
+                                                :
+                                                handleStars(Math.round(rf.ride.average_rating))
+                                            }
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-center pt-1 mb-2">
+                                            {
+                                                (rf.ride_id.includes('Magic')) ? 
+                                                <div class="text-xs px-3 bg-red-500 text-warm-grey-050 rounded-full p-0.5" >Magic Kingdom</div> 
+                                                : 
+                                                ''
+                                            }
+                                            {
+                                                (rf.ride_id.includes('Animal')) ? 
+                                                <div class="text-xs px-3 bg-lime-green-300 text-warm-grey-800 rounded-full p-0.5" >Animal Kingdom</div> 
+                                                : 
+                                                ''
+                                            }
+                                            {
+                                                (rf.ride_id.includes('Epcot')) ? 
+                                                <div class="text-xs px-3 bg-cyan-300 text-warm-grey-800 rounded-full p-0.5" >Epcot</div> 
+                                                : 
+                                                ''
+                                            }
+                                            {
+                                                (rf.ride_id.includes('Hollywood')) ? 
+                                                <div class="text-xs px-3 bg-yellow-vivid-300 text-warm-grey-800 rounded-full p-0.5" >Hollywood Studios</div> 
+                                                : 
+                                                ''
+                                            }
+                                        
+                                        </div>
+                            </div>
+                        </div>
+                        })
+                }
+            
+        </div>
+        
+        </div>
+        <div class="max-w-7xl mx-auto py-2 sm:px-6 lg:px-8 mt-12">
+        <div class="lg:text-center">
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-warm-grey-900 sm:text-4xl mb-6">
                     Top Rated Rides
                 </p>
             </div>
@@ -153,7 +243,7 @@ export const LandingPage = (props) => {
                                         <div class="flex justify-center pt-1">
                                             {
                                                 (r.average_rating === null) ? 
-                                                ''
+                                                <p class="tracking-wide text-lg pt-2 font-bold text-warm-grey-700 text-center">Be the First to Review</p>
                                                 :
                                                 handleStars(Math.round(r.average_rating))
                                             }
@@ -161,12 +251,40 @@ export const LandingPage = (props) => {
                                         </div>
                                     </div>
                                 </div>
+                                <div class="flex justify-center pt-1 mb-2">
+                                            {
+                                                (r.ride.includes('Magic')) ? 
+                                                <div class="text-xs px-3 bg-red-500 text-warm-grey-050 rounded-full p-0.5" >Magic Kingdom</div> 
+                                                : 
+                                                ''
+                                            }
+                                            {
+                                                (r.ride.includes('Animal')) ? 
+                                                <div class="text-xs px-3 bg-lime-green-300 text-warm-grey-800 rounded-full p-0.5" >Animal Kingdom</div> 
+                                                : 
+                                                ''
+                                            }
+                                            {
+                                                (r.ride.includes('Epcot')) ? 
+                                                <div class="text-xs px-3 bg-cyan-300 text-warm-grey-800 rounded-full p-0.5" >Epcot</div> 
+                                                : 
+                                                ''
+                                            }
+                                            {
+                                                (r.ride.includes('Hollywood')) ? 
+                                                <div class="text-xs px-3 bg-yellow-vivid-300 text-warm-grey-800 rounded-full p-0.5" >Hollywood Studios</div> 
+                                                : 
+                                                ''
+                                            }
+                                        
+                                        </div>
                             </div>
                         </div>
                         })
                 }
             
         </div>
+        
         </div>
         </div>
             
