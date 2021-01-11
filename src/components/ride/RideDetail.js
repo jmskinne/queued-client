@@ -2,11 +2,12 @@ import React, {useContext, useEffect, useState} from "react"
 import {RideContext} from "./RideProvider"
 import {ReviewContext} from "../review/ReviewProvider"
 import {DateTime} from "luxon"
-import ReactFrappeChart from "react-frappe-charts"
+import {VictoryAxis, VictoryBar, VictoryChart} from 'victory'
+
 
 import {ProfileContext} from "../profile/ProfileProvider"
 import { WaitContext } from "../wait/WaitProvider"
-import { wait } from "@testing-library/react"
+
 
 export const RideDetail = (props) => {
     const {profile} = useContext(ProfileContext)
@@ -19,6 +20,8 @@ export const RideDetail = (props) => {
     
     const [loaded, setLoaded] = useState(false)
     const [waitTimes, setTimes] = useState([])
+
+    const [showChart, setShowChart] = useState(false)
     const rideId = props.match.params.rideId
     
     useEffect(() => {
@@ -43,10 +46,10 @@ export const RideDetail = (props) => {
         })
         let res = Object.entries(tmp).map(entry => {
             return {date : entry[0], avg : entry[1].total / entry[1].count}
-        })
+        }) || {}
         setTimes(res)
         console.log(tmp)
-    }, [loaded])
+    }, [showChart])
 
     useEffect(() => {
         console.log(waitTimes)
@@ -116,37 +119,40 @@ export const RideDetail = (props) => {
                             }
                         </div>
                     <div>
-                    <button class="bg-cyan-050 hover:bg-cyan-900 text-warm-grey-700 hover:text-warm-grey-050 font-bold py-2 px-4 rounded" onClick={() => props.history.push(`/rides`)}>Back</button>
+                        <button class="bg-cyan-050 hover:bg-cyan-900 text-warm-grey-700 hover:text-warm-grey-050 font-bold py-2 px-4 rounded" onClick={() => props.history.push(`/rides`)}>Back</button>
+                        <button class="px-5 py-2 border-warm-grey-900 border-transparent text-base font-medium ml-5 mr-5
+                            rounded-md text-warm-grey-900 bg-cyan-400 hover:bg-cyan-900 hover:text-warm-grey-050"onClick={() => setShowChart(true)}>Show Chart</button>
+                        <button class="px-5 py-2 border-warm-grey-900 border-transparent text-base font-medium 
+                            rounded-md text-warm-grey-900 bg-yellow-vivid-400 hover:bg-yellow-vivid-900 hover:text-warm-grey-050" onClick={() => setShowChart(false)}>Hide Chart</button>
                     </div>
-                    <div>
-                        
-                        {/* {
-                            historicalWait.map(hw => {
-                                return <div key={hw.id}>
-                                <div>{DateTime.fromISO(hw.created_on).toLocaleString(DateTime.DATETIME_SHORT)}</div>
-                                <div>{hw.wait}</div>
-                                </div>
-                            })
-                        } */}
-                        
-                    </div>
-                    {/* <div>
-                        <ReactFrappeChart
-                            type="line"
-                            colors={["#A39E93"]}
-                            axisOptions={{ xAxisMode: "tick", yAxisMode: "tick", xIsSeries: 1 }}
-                            height={250}
-                            data={{
-                                labels: timeLabel,
-                                datasets: [{ values: waitTimes }],
-                                
-                                
-                            }}
-                            title={ride.name}
-                            
-                            />
+                    <div class="flex flex-wrap items-center justify-center max-w-2xl">
+                        {
+                            showChart ?
+                                <VictoryChart domainPadding={{x:15}}>
+                                    <VictoryBar 
+                                        style={{
+                                            data : {fill : "#0E7C86"},
+                                            labels : {fontSize: 8},
 
-                    </div> */}
+                                        }}
+                                        height={400}
+                                        width={150}
+                                        data={waitTimes}
+                                        alignment="start"
+                                        x="date"
+                                        y="avg"
+                            
+                                                />
+                                    <VictoryAxis label="date" style={{axisLabel: {padding: 20}}} />
+                                    <VictoryAxis dependentAxis label="Average Wait" style={{axisLabel: {padding : 30}}} />
+                                </VictoryChart>
+                            :
+                            ''
+                                
+                        }
+                        
+                    </div>
+                    
                     
                 </div>
             </div>
