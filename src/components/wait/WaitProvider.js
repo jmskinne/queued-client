@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 
 
 export const WaitContext = React.createContext()
@@ -53,6 +53,17 @@ export const WaitProvider = props => {
         }).then(setWaitTimes)
     }
 
+    const createHistoricalWait = (newWait) => {
+        return fetch("http://localhost:8000/historicalwaits", {
+            method : "POST",
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("q_token")}`,
+                "Content-Type" : "application/json "
+            },
+            body : JSON.stringify(newWait)
+        })
+    }
+
     return (
        <WaitContext.Provider value={{     
            getMkWait,
@@ -60,7 +71,9 @@ export const WaitProvider = props => {
            getHsWait,
            getAkWait,
            getAllWaitTimes,
-           allWaitTimes
+           allWaitTimes,
+           createHistoricalWait
+
        }}>
            {props.children}
        </WaitContext.Provider>

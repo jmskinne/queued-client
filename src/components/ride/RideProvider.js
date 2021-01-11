@@ -55,7 +55,7 @@ export const RideProvider = (props) => {
         })
         .then(r => r.json())
         .then(ridesToSort => {
-            return ridesToSort.sort((a,b) => b.average_rating - a.average_rating).slice(0,3)
+            return ridesToSort.sort((a,b) => b.average_rating - a.average_rating).slice(0,3) || []
         })
         .then(setSortedRides)
         

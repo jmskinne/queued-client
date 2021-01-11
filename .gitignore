@@ -187,8 +187,9 @@ dmypy.json
 !.vscode/extensions.json
 *.code-workspace
 
-# End of https://www.toptal.com/developers/gitignore/api/vscode
 
+# End of https://www.toptal.com/developers/gitignore/api/vscode
+Settings.js
 .eslintcache
 tailwindconfig.js
 
