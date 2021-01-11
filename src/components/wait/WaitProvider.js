@@ -7,6 +7,7 @@ export const WaitContext = React.createContext()
 export const WaitProvider = props => {
     const cors = "https://blooming-gorge-83806.herokuapp.com/"
     const [allWaitTimes, setWaitTimes] = useState([])
+    const [historicalWait, setHistoricalWait] = useState([])
 
     const getMkWait = () => {
         return fetch(`${cors}https://api.themeparks.wiki/preview/parks/WaltDisneyWorldMagicKingdom/waittime`)
@@ -64,6 +65,25 @@ export const WaitProvider = props => {
         })
     }
 
+    const getHistoricalWait = () => {
+        return fetch("http://localhost:8000/historicalwaits", {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("q_token")}`
+            }
+        })
+        .then(r => r.json())
+    }
+
+    const getHistoricalWaitByRide = (ride) => {
+        return fetch(`http://localhost:8000/historicalwaits?ride=${ride}`, {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("q_token")}`
+            }
+        })
+        .then(r => r.json())
+        .then(setHistoricalWait)
+    }
+
     return (
        <WaitContext.Provider value={{     
            getMkWait,
@@ -72,7 +92,10 @@ export const WaitProvider = props => {
            getAkWait,
            getAllWaitTimes,
            allWaitTimes,
-           createHistoricalWait
+           createHistoricalWait,
+           getHistoricalWait,
+           getHistoricalWaitByRide,
+           historicalWait
 
        }}>
            {props.children}

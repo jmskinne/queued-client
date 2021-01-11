@@ -1,56 +1,60 @@
 import React, {useContext, useEffect, useState} from "react"
 import {RideContext} from "./RideProvider"
 import {ReviewContext} from "../review/ReviewProvider"
+import {DateTime} from "luxon"
+import {VictoryAxis, VictoryBar, VictoryChart} from 'victory'
+
 
 import {ProfileContext} from "../profile/ProfileProvider"
+import { WaitContext } from "../wait/WaitProvider"
+
 
 export const RideDetail = (props) => {
     const {profile} = useContext(ProfileContext)
     const {getRideById} = useContext(RideContext)
     const {rideReviews, getReviewsByRide, deleteRideReview} = useContext(ReviewContext)
+    const {historicalWait, getHistoricalWaitByRide} = useContext(WaitContext)
     
     
     const [ride, setRide] = useState({})
+    
+    const [loaded, setLoaded] = useState(false)
+    const [waitTimes, setTimes] = useState([])
 
+    const [showChart, setShowChart] = useState(false)
+    const rideId = props.match.params.rideId
+    
     useEffect(() => {
-        const rideId = props.match.params.rideId
+        
         getRideById(rideId).then(r => setRide(r))
         getReviewsByRide(rideId)
         
     }, [])
 
-    // return (
-    //     <>
-    //     <div>
-    //         <h1>{ride.name}</h1>
-    //         <button onClick={() => props.history.push(`/ridereviews/new/${props.match.params.rideId}`)
-    //         }>
-    //             New Review
-    //         </button>
-    //     </div>
-    //     <h3>Reviews</h3>
-    //     <article>
-    //         {
-    //             rideReviews.map(r => {
-    //                 return <section key={r.id}>
-    //                 <div>{r.review}</div>
-    //                 {
-    //                     (profile[0]?.user.id === r.reviewer?.user.id) ? 
-    //                     <>
-    //                     <button onClick={() => props.history.push(`/ridereviews/edit/${r.id}`)}>Edit</button>
-    //                     <button onClick={() => deleteRideReview(r)}>Delete</button>
-    //                     </>
-    //                     :
-    //                     ''
-    //                 }
-                    
-    //                 </section>
-    //             })
-    //         }
-    //     </article>
-    //     <button onClick={() => props.history.push(`/rides`)}>Back</button>
-    //     </>
-    // )
+    useEffect(() => {
+        getHistoricalWaitByRide(rideId).then(setLoaded(true))
+    }, [])
+
+    useEffect(() => {
+        let tmp = {}
+        historicalWait.forEach(item => {
+            let obj = tmp[DateTime.fromISO(item.created_on).toLocaleString(DateTime.DATE_SHORT)] = tmp[DateTime.fromISO(item.created_on).toLocaleString(DateTime.DATE_SHORT)] || {count: 0, total : 0}
+            if(item.wait !== null) {
+            obj.count++
+            obj.total += item.wait
+            }
+        })
+        let res = Object.entries(tmp).map(entry => {
+            return {date : entry[0], avg : entry[1].total / entry[1].count}
+        }) || {}
+        setTimes(res)
+        console.log(tmp)
+    }, [showChart])
+
+    useEffect(() => {
+        console.log(waitTimes)
+    }, [waitTimes])
+
     return (
         <>
         <div class="bg-warm-grey-200">
@@ -111,15 +115,44 @@ export const RideDetail = (props) => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            
-
-
                                 })
                             }
                         </div>
-                        <div>
+                    <div>
                         <button class="bg-cyan-050 hover:bg-cyan-900 text-warm-grey-700 hover:text-warm-grey-050 font-bold py-2 px-4 rounded" onClick={() => props.history.push(`/rides`)}>Back</button>
-                        </div>
+                        <button class="px-5 py-2 border-warm-grey-900 border-transparent text-base font-medium ml-5 mr-5
+                            rounded-md text-warm-grey-900 bg-cyan-400 hover:bg-cyan-900 hover:text-warm-grey-050"onClick={() => setShowChart(true)}>Show Chart</button>
+                        <button class="px-5 py-2 border-warm-grey-900 border-transparent text-base font-medium 
+                            rounded-md text-warm-grey-900 bg-yellow-vivid-400 hover:bg-yellow-vivid-900 hover:text-warm-grey-050" onClick={() => setShowChart(false)}>Hide Chart</button>
+                    </div>
+                    <div class="flex flex-wrap items-center justify-center max-w-2xl">
+                        {
+                            showChart ?
+                                <VictoryChart domainPadding={{x:15}}>
+                                    <VictoryBar 
+                                        style={{
+                                            data : {fill : "#0E7C86"},
+                                            labels : {fontSize: 8},
+
+                                        }}
+                                        height={400}
+                                        width={150}
+                                        data={waitTimes}
+                                        alignment="start"
+                                        x="date"
+                                        y="avg"
+                            
+                                                />
+                                    <VictoryAxis label="date" style={{axisLabel: {padding: 20}}} />
+                                    <VictoryAxis dependentAxis label="Average Wait" style={{axisLabel: {padding : 30}}} />
+                                </VictoryChart>
+                            :
+                            ''
+                                
+                        }
+                        
+                    </div>
+                    
                     
                 </div>
             </div>
@@ -127,4 +160,6 @@ export const RideDetail = (props) => {
 
         </>
     )
+
+   
 }
