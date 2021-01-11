@@ -1,56 +1,57 @@
 import React, {useContext, useEffect, useState} from "react"
 import {RideContext} from "./RideProvider"
 import {ReviewContext} from "../review/ReviewProvider"
+import {DateTime} from "luxon"
+import ReactFrappeChart from "react-frappe-charts"
 
 import {ProfileContext} from "../profile/ProfileProvider"
+import { WaitContext } from "../wait/WaitProvider"
+import { wait } from "@testing-library/react"
 
 export const RideDetail = (props) => {
     const {profile} = useContext(ProfileContext)
     const {getRideById} = useContext(RideContext)
     const {rideReviews, getReviewsByRide, deleteRideReview} = useContext(ReviewContext)
+    const {historicalWait, getHistoricalWaitByRide} = useContext(WaitContext)
     
     
     const [ride, setRide] = useState({})
-
+    
+    const [loaded, setLoaded] = useState(false)
+    const [waitTimes, setTimes] = useState([])
+    const rideId = props.match.params.rideId
+    
     useEffect(() => {
-        const rideId = props.match.params.rideId
+        
         getRideById(rideId).then(r => setRide(r))
         getReviewsByRide(rideId)
         
     }, [])
 
-    // return (
-    //     <>
-    //     <div>
-    //         <h1>{ride.name}</h1>
-    //         <button onClick={() => props.history.push(`/ridereviews/new/${props.match.params.rideId}`)
-    //         }>
-    //             New Review
-    //         </button>
-    //     </div>
-    //     <h3>Reviews</h3>
-    //     <article>
-    //         {
-    //             rideReviews.map(r => {
-    //                 return <section key={r.id}>
-    //                 <div>{r.review}</div>
-    //                 {
-    //                     (profile[0]?.user.id === r.reviewer?.user.id) ? 
-    //                     <>
-    //                     <button onClick={() => props.history.push(`/ridereviews/edit/${r.id}`)}>Edit</button>
-    //                     <button onClick={() => deleteRideReview(r)}>Delete</button>
-    //                     </>
-    //                     :
-    //                     ''
-    //                 }
-                    
-    //                 </section>
-    //             })
-    //         }
-    //     </article>
-    //     <button onClick={() => props.history.push(`/rides`)}>Back</button>
-    //     </>
-    // )
+    useEffect(() => {
+        getHistoricalWaitByRide(rideId).then(setLoaded(true))
+    }, [])
+
+    useEffect(() => {
+        let tmp = {}
+        historicalWait.forEach(item => {
+            let obj = tmp[DateTime.fromISO(item.created_on).toLocaleString(DateTime.DATE_SHORT)] = tmp[DateTime.fromISO(item.created_on).toLocaleString(DateTime.DATE_SHORT)] || {count: 0, total : 0}
+            if(item.wait !== null) {
+            obj.count++
+            obj.total += item.wait
+            }
+        })
+        let res = Object.entries(tmp).map(entry => {
+            return {date : entry[0], avg : entry[1].total / entry[1].count}
+        })
+        setTimes(res)
+        console.log(tmp)
+    }, [loaded])
+
+    useEffect(() => {
+        console.log(waitTimes)
+    }, [waitTimes])
+
     return (
         <>
         <div class="bg-warm-grey-200">
@@ -111,15 +112,41 @@ export const RideDetail = (props) => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            
-
-
                                 })
                             }
                         </div>
-                        <div>
-                        <button class="bg-cyan-050 hover:bg-cyan-900 text-warm-grey-700 hover:text-warm-grey-050 font-bold py-2 px-4 rounded" onClick={() => props.history.push(`/rides`)}>Back</button>
-                        </div>
+                    <div>
+                    <button class="bg-cyan-050 hover:bg-cyan-900 text-warm-grey-700 hover:text-warm-grey-050 font-bold py-2 px-4 rounded" onClick={() => props.history.push(`/rides`)}>Back</button>
+                    </div>
+                    <div>
+                        
+                        {/* {
+                            historicalWait.map(hw => {
+                                return <div key={hw.id}>
+                                <div>{DateTime.fromISO(hw.created_on).toLocaleString(DateTime.DATETIME_SHORT)}</div>
+                                <div>{hw.wait}</div>
+                                </div>
+                            })
+                        } */}
+                        
+                    </div>
+                    {/* <div>
+                        <ReactFrappeChart
+                            type="line"
+                            colors={["#A39E93"]}
+                            axisOptions={{ xAxisMode: "tick", yAxisMode: "tick", xIsSeries: 1 }}
+                            height={250}
+                            data={{
+                                labels: timeLabel,
+                                datasets: [{ values: waitTimes }],
+                                
+                                
+                            }}
+                            title={ride.name}
+                            
+                            />
+
+                    </div> */}
                     
                 </div>
             </div>
@@ -127,4 +154,6 @@ export const RideDetail = (props) => {
 
         </>
     )
+
+   
 }

@@ -1,40 +1,40 @@
-import React, {useContext, useEffect, useState} from 'react'
-import {WaitContext} from "../wait/WaitProvider"
+// import React, {useContext, useEffect, useState} from 'react'
+// import {WaitContext} from "../wait/WaitProvider"
 
 
-export const HistoricalWaits = (props) => {
+// export const HistoricalWaits = (props) => {
 
-    const {getAllWaitTimes, allWaitTimes, createHistoricalWait} = useContext(WaitContext)
-    const [ran,setRun] = useState()
+//     const {getAllWaitTimes, allWaitTimes, createHistoricalWait} = useContext(WaitContext)
+//     const [ran,setRun] = useState()
 
-    const makeHistoricalWait = async (waits) => {
-        await waits.forEach(ride => {
-            createHistoricalWait({
-                ride : ride.id,
-                name : ride.name,
-                wait : ride.waitTime
+//     const makeHistoricalWait = async (waits) => {
+//         await waits.forEach(ride => {
+//             createHistoricalWait({
+//                 ride : ride.id,
+//                 name : ride.name,
+//                 wait : ride.waitTime
                         
-            })
-        })
-    }
+//             })
+//         })
+//     }
 
-    // useEffect(() => {
-    //     getAllWaitTimes()
-    //     setRun(true)
-    // }, [ran])
+//     useEffect(() => {
+//         getAllWaitTimes()
+//         setRun(true)
+//     }, [ran])
 
-    // useEffect(() => {
-    //     const interval = setInterval(() => {
-    //         setRun(false)
-    //         makeHistoricalWait(allWaitTimes)
-    //     }, 1800000)
-    //     return () => clearInterval(interval)
-    // })
+//     useEffect(() => {
+//         const interval = setInterval(() => {
+//             setRun(false)
+//             makeHistoricalWait(allWaitTimes)
+//         }, 60000)
+//         return () => clearInterval(interval)
+//     })
 
     
 
-    return (
-        null
-    )
+//     return (
+//         null
+//     )
 
-}
+// }
