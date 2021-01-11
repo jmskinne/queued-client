@@ -1,8 +1,10 @@
 import {DateTime, Interval} from "luxon"
 import React, {useContext, useEffect, useState} from 'react'
 import {Link} from "react-router-dom"
+import api from "../../Settings.js"
 import {TripContext} from "./TripProvider"
 import {ItineraryContext} from "../itinerary/ItineraryProvider"
+
 
 import {RideItineraryContext} from "../rideitinerary/RideItineraryProvider"
 
@@ -40,7 +42,7 @@ export const TripDetail = (props) => {
     useEffect(() => {
         getTripById(tripId).then(setTrip)
         getItinerariesByTrip(tripId).then(setTripLength(tripItineraries.length))
-        // getAllWaitTimes()
+        getAllWaitTimes()
     }, [tripId])
 
     useEffect(() => {
@@ -49,19 +51,27 @@ export const TripDetail = (props) => {
     },[selectedDate])
 
     useEffect(() => {
-        if (rideOrder.length > 1) {
-            let origin = `${rideOrder[0].ride.lat},${rideOrder[0].ride.longitude}`
-            let destination = `${rideOrder[rideOrder.length - 1].ride.lat},${rideOrder[rideOrder.length - 1].ride.longitude}`
-            let ways = rideOrder.map(w => `${w.ride.lat},${w.ride.longitude}`).slice(1, rideOrder.length - 1).join("|").split().toString()
-            let mapUrl = `www.google.com/maps/embed/v1/directions?key=&mode=walking&origin=${origin}&destination=${destination}&waypoints=${ways}`
-            setParsedMap(mapUrl)
-            console.log(mapUrl)
-
-            
-        }
+            if (rideOrder.length === 1) {
+                let origin = `${rideOrder[0].ride.lat},${rideOrder[0].ride.longitude}`
+                let mapUrl =`https://www.google.com/maps/embed/v1/place?key=${api.mapped}${`\u0026`}q=${origin}`
+                let mapHTML = <iframe width="600" height="450" src={(`${mapUrl}`)} />
+                setParsedMap(mapHTML)
+            } else if(rideOrder.length === 2 ) {
+                let origin = `${rideOrder[0].ride.lat},${rideOrder[0].ride.longitude}`
+                let destination = `${rideOrder[rideOrder.length - 1].ride.lat},${rideOrder[rideOrder.length - 1].ride.longitude}`
+                let mapUrl =`https://www.google.com/maps/embed/v1/directions?key=${api.mapped}&mode=walking${`\u0026`}origin=${origin}${`\u0026`}destination=${destination}`
+                let mapHTML = <iframe width="600" height="450" src={(`${mapUrl}`)} />
+                setParsedMap(mapHTML)
+            } else if(rideOrder.length >= 3) {
+                let origin = `${rideOrder[0].ride.lat},${rideOrder[0].ride.longitude}`
+                let destination = `${rideOrder[rideOrder.length - 1].ride.lat},${rideOrder[rideOrder.length - 1].ride.longitude}`
+                let ways = rideOrder.map(w => `${w.ride.lat},${w.ride.longitude}`).slice(1, rideOrder.length - 1).join("|").split().toString()
+                let mapUrl =`https://www.google.com/maps/embed/v1/directions?key=${api.mapped}&mode=walking${`\u0026`}origin=${origin}${`\u0026`}destination=${destination}${`\u0026`}waypoints=${ways}`
+                let mapHTML = <iframe width="600" height="450" src={(`${mapUrl}`)} />
+                setParsedMap(mapHTML)
+            }
+        
     }, [selectedDate, rideOrder])
-
-   
 
     useEffect(() => {
         function* days(interval) {
@@ -122,15 +132,9 @@ export const TripDetail = (props) => {
         await updateRideItinerary(r.id, index + 1)
     }
 
-    // const iframe = (map) => {
-    //     return <iframe 
-    //         width="600" 
-    //         height="450" 
-    //         allowFullScreen
-    //         src={map} />
-            
-        
-    // }
+    
+
+    
 
     return (
         <div class="bg-warm-grey-200">
@@ -174,20 +178,30 @@ export const TripDetail = (props) => {
                         rounded-md text-warm-grey-900 bg-lime-green-400 hover:bg-lime-green-900 hover:text-warm-grey-050" onClick={() => props.history.push(`/rideitineraries/itinerary/${selectedDate}`)}>Add Rides</button>
                     </div>
                 </div>
-                <div><button onClick={() => setShowMap(true)}>Show Map</button>
+                <div>
+                    {
+                        (selectedDate == 0)
+                        ?
+                        ''
+                        :
+                        <>
+                        <button class="px-5 py-2 border-warm-grey-900 border-transparent text-base font-medium mr-5
+                        rounded-md text-warm-grey-900 bg-cyan-400 hover:bg-cyan-900 hover:text-warm-grey-050"onClick={() => setShowMap(true)}>Show Map</button>
+                        <button class="px-5 py-2 border-warm-grey-900 border-transparent text-base font-medium 
+                        rounded-md text-warm-grey-900 bg-yellow-vivid-400 hover:bg-yellow-vivid-900 hover:text-warm-grey-050" onClick={() => setShowMap(false)}>Hide Map</button>
+                        </>
+                    } 
                 </div>
                 
                 
             </div>
             <div class="flex flex-wrap items-center justify-center">
-                {
-                    showMap ? 
-                    <iframe width="600" height="450" 
-                    srcDoc={parsedMap}
-                    />
-                    : 
+                { showMap ?
+                    parsedMap
+                     :
                     ''
-                }</div>
+                }
+            </div>
             
             <div class="max-w">
                 <DragDropContext onDragEnd={handleDragEnd}>
@@ -234,7 +248,7 @@ export const TripDetail = (props) => {
                                                  (theWait.status === "Closed" || theWait.status === "Refurbishment")
                                                  ?
                                                  
-                                                    <p class="text-red-900 text-lg font-bold uppercase">Closed</p>
+                                                <p class="text-red-900 text-lg font-bold uppercase">Closed</p>
                                                 
                                                  :
                                                  <p class="text-md font-bold text-warm-grey-700 text-center">{theWait.waitTime} mintues</p>
