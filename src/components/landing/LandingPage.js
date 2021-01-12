@@ -115,7 +115,7 @@ export const LandingPage = (props) => {
                     Your Favorite Rides
                 </p>
             </div>
-            <div class="flex items-center justify-center">
+            <div class="flex flex-wrap items-center justify-center">
                 {
                     rideFavorites.map(rf => {
                         return <div class="max-w-sm w-full sm:w-1/2 lg:w-1/3 py-6 px-3">
