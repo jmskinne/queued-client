@@ -1,8 +1,8 @@
 import React, {useContext, useEffect, useState} from "react"
-import {RideContext} from "./RideProvider"
+import {RideContext, RideProvider} from "./RideProvider"
 import {ReviewContext} from "../review/ReviewProvider"
 import {DateTime} from "luxon"
-import {VictoryAxis, VictoryBar, VictoryChart} from 'victory'
+import {VictoryAxis, VictoryBar, VictoryChart, VictoryLabel, VictoryTheme} from 'victory'
 
 
 import {ProfileContext} from "../profile/ProfileProvider"
@@ -48,12 +48,7 @@ export const RideDetail = (props) => {
             return {date : entry[0], avg : entry[1].total / entry[1].count}
         }) || {}
         setTimes(res)
-        console.log(tmp)
     }, [showChart])
-
-    useEffect(() => {
-        console.log(waitTimes)
-    }, [waitTimes])
 
     return (
         <>
@@ -107,7 +102,7 @@ export const RideDetail = (props) => {
                                                         </div>
                                                         <div class="w-4/12 overflow-hidden">
                                                             <div class="text-warm-grey-300 mt-2 "><span class="mr-1">{r.reviewer?.user.username} </span>
-                                                            <img class="inline-block h-8 w-8 rounded-full ring-2 ring-white mb-2" src={(`${profile[0]?.profile_image_url}`)} />
+                                                            <img class="inline-block h-8 w-8 rounded-full ring-2 ring-white mb-2" src={(`${r.reviewer?.profile_image_url}`)} />
                                                             </div>
                                                             
                                                         </div>
@@ -125,15 +120,19 @@ export const RideDetail = (props) => {
                         <button class="px-5 py-2 border-warm-grey-900 border-transparent text-base font-medium 
                             rounded-md text-warm-grey-900 bg-yellow-vivid-400 hover:bg-yellow-vivid-900 hover:text-warm-grey-050" onClick={() => setShowChart(false)}>Hide Chart</button>
                     </div>
-                    <div class="flex flex-wrap items-center justify-center max-w-2xl">
+                    <div class="flex flex-wrap items-center justify-center mt-4">
                         {
                             showChart ?
-                                <VictoryChart domainPadding={{x:15}}>
+                                <VictoryChart domainPadding={{x:15}} style={
+                                    {parent : {maxWidth: "55%", border : "1px solid #7BB026"}}
+                                    
+                                    }
+                                    
+                                    theme={VictoryTheme.material}>
                                     <VictoryBar 
                                         style={{
                                             data : {fill : "#0E7C86"},
-                                            labels : {fontSize: 8},
-
+                                            labels : {fill: "white"},
                                         }}
                                         height={400}
                                         width={150}
@@ -141,9 +140,11 @@ export const RideDetail = (props) => {
                                         alignment="start"
                                         x="date"
                                         y="avg"
-                            
-                                                />
-                                    <VictoryAxis label="date" style={{axisLabel: {padding: 20}}} />
+                                        barRatio={0.25}
+                                        labels={({datum}) => datum.y}
+                                        labelComponent={ <VictoryLabel dy={5} />}
+                                        />
+                                    <VictoryAxis label="Date" style={{axisLabel: {padding: 20}}} />
                                     <VictoryAxis dependentAxis label="Average Wait" style={{axisLabel: {padding : 30}}} />
                                 </VictoryChart>
                             :

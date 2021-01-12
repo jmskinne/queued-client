@@ -12,7 +12,7 @@ export const TripList = (props) => {
 
     return (
         <>
-        <div class="bg-warm-grey-200">
+        <div class="bg-warm-grey-200 h-screen">
             <div class="max-w-7xl mx-auto py-2 sm:px-6 lg:px-8">
                 <div class="lg:text-center">
                     <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-warm-grey-900 sm:text-4xl">

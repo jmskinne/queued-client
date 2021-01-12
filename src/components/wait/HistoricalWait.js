@@ -27,7 +27,7 @@
 //         const interval = setInterval(() => {
 //             setRun(false)
 //             makeHistoricalWait(allWaitTimes)
-//         }, 60000)
+//         }, 1800000)
 //         return () => clearInterval(interval)
 //     })
 
