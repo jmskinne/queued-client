@@ -11,7 +11,7 @@ export const TripProvider = (props) => {
 
 
     const getTrips = () => {
-        return fetch("http://localhost:8000/trips", {
+        return fetch("https://queued-server-tv5uq.ondigitalocean.app/trips", {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`
             }
@@ -21,7 +21,7 @@ export const TripProvider = (props) => {
     }
 
     const getTripById = (tripId) => {
-        return fetch(`http://localhost:8000/trips/${tripId}`, {
+        return fetch(`https://queued-server-tv5uq.ondigitalocean.app/trips/${tripId}`, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`
             }
@@ -30,7 +30,7 @@ export const TripProvider = (props) => {
     }
 
     const createTrip = (newTrip) => {
-        return fetch("http://localhost:8000/trips", {
+        return fetch("https://queued-server-tv5uq.ondigitalocean.app/trips", {
             method : "POST",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`,
@@ -41,7 +41,7 @@ export const TripProvider = (props) => {
     }
 
     const updateTrip = (tripId, newTrip) => {
-        return fetch(`http://localhost:8000/trips/${tripId}`, {
+        return fetch(`https://queued-server-tv5uq.ondigitalocean.app/trips/${tripId}`, {
             method : "PUT",
             headers : {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`,
@@ -52,7 +52,7 @@ export const TripProvider = (props) => {
     }
 
     const deleteTrip = (trip) => {
-        return fetch(`http://localhost:8000/trips/${trip.id}`, {
+        return fetch(`https://queued-server-tv5uq.ondigitalocean.app/trips/${trip.id}`, {
             method : "DELETE",
             headers : {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`,   
@@ -61,7 +61,7 @@ export const TripProvider = (props) => {
     }
 
     const getThreeUpcomingTrips = () => {
-        return fetch("http://localhost:8000/trips", {
+        return fetch("https://queued-server-tv5uq.ondigitalocean.app/trips", {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`
             }

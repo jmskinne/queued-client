@@ -6,7 +6,7 @@ export const ProfileProvider = (props) => {
     const [profile, setProfile] = useState({})
 
     const getProfile = () => {
-        return fetch("http://localhost:8000/profile", {
+        return fetch("https://queued-server-tv5uq.ondigitalocean.app/profile", {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`
             }
