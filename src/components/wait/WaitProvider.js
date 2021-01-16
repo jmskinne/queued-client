@@ -56,7 +56,7 @@ export const WaitProvider = props => {
     }
 
     const createHistoricalWait = (newWait) => {
-        return fetch("http://localhost:8000/historicalwaits", {
+        return fetch("https://queued-server-tv5uq.ondigitalocean.app/historicalwaits", {
             method : "POST",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`,
@@ -67,7 +67,7 @@ export const WaitProvider = props => {
     }
 
     const getHistoricalWait = () => {
-        return fetch("http://localhost:8000/historicalwaits", {
+        return fetch("https://queued-server-tv5uq.ondigitalocean.app/historicalwaits", {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`
             }
@@ -76,7 +76,7 @@ export const WaitProvider = props => {
     }
 
     const getHistoricalWaitByRide = (ride) => {
-        return fetch(`http://localhost:8000/historicalwaits?ride=${ride}`, {
+        return fetch(`https://queued-server-tv5uq.ondigitalocean.app/historicalwaits?ride=${ride}`, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`
             }

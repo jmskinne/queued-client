@@ -8,7 +8,7 @@ export const RideProvider = (props) => {
     
 
     const getRides = () => {
-        return fetch("http://localhost:8000/rides", {
+        return fetch("https://queued-server-tv5uq.ondigitalocean.app/rides", {
         headers: {
             "Authorization": `Token ${localStorage.getItem("q_token")}`
             }
@@ -18,7 +18,7 @@ export const RideProvider = (props) => {
     }
 
     const getRideById = (rideId) => {
-        return fetch(`http://localhost:8000/rides/${rideId}`, {
+        return fetch(`https://queued-server-tv5uq.ondigitalocean.app/rides/${rideId}`, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`
             }
@@ -27,7 +27,7 @@ export const RideProvider = (props) => {
     }
 
     const addRideFromAPI = (newRide) => {
-        return fetch("http://localhost:8000/rides", {
+        return fetch("https://queued-server-tv5uq.ondigitalocean.app/rides", {
             method : "POST",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`,
@@ -38,7 +38,7 @@ export const RideProvider = (props) => {
     }
 
     const getRideBySearch = (search) => {
-        return fetch(`http://localhost:8000/rides?q=${search}`, {
+        return fetch(`https://queued-server-tv5uq.ondigitalocean.app/rides?q=${search}`, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`
                 }
@@ -48,14 +48,16 @@ export const RideProvider = (props) => {
     }
 
     const getSortedRides = () => {
-        return fetch("http://localhost:8000/rides", {
+        return fetch("https://queued-server-tv5uq.ondigitalocean.app/rides", {
         headers: {
             "Authorization": `Token ${localStorage.getItem("q_token")}`
             }
         })
         .then(r => r.json())
         .then(ridesToSort => {
+            
             return ridesToSort.sort((a,b) => b.average_rating - a.average_rating).slice(0,3) || []
+            
         })
         .then(setSortedRides)
         

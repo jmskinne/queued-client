@@ -7,7 +7,7 @@ export const ReviewProvider = (props) => {
     const [rideReviews, setRideReviews] = useState([])
 
     const getRideReviews = () => {
-        return fetch("http://localhost:8000/ridereviews", {
+        return fetch("https://queued-server-tv5uq.ondigitalocean.app/ridereviews", {
         headers: {
             "Authorization": `Token ${localStorage.getItem("q_token")}`
             }
@@ -17,7 +17,7 @@ export const ReviewProvider = (props) => {
     }
 
     const getReviewById = (reviewId) => {
-        return fetch(`http://localhost:8000/ridereviews/${reviewId}`, {
+        return fetch(`https://queued-server-tv5uq.ondigitalocean.app/ridereviews/${reviewId}`, {
         headers: {
             "Authorization": `Token ${localStorage.getItem("q_token")}`
             }
@@ -26,7 +26,7 @@ export const ReviewProvider = (props) => {
     }
 
     const getReviewsByRide = (rideId) => {
-        return fetch(`http://localhost:8000/ridereviews?ride_id=${rideId}`, {
+        return fetch(`https://queued-server-tv5uq.ondigitalocean.app/ridereviews?ride_id=${rideId}`, {
         headers: {
             "Authorization": `Token ${localStorage.getItem("q_token")}`
             }
@@ -36,7 +36,7 @@ export const ReviewProvider = (props) => {
     }
 
     const addRideReview = (newReview) => {
-        return fetch("http://localhost:8000/ridereviews", {
+        return fetch("https://queued-server-tv5uq.ondigitalocean.app/ridereviews", {
             method : "POST",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`,
@@ -48,7 +48,7 @@ export const ReviewProvider = (props) => {
     }
 
     const updateRideReview = (reviewId, newReview) => {
-        return fetch(`http://localhost:8000/ridereviews/${reviewId}`, {
+        return fetch(`https://queued-server-tv5uq.ondigitalocean.app/ridereviews/${reviewId}`, {
             method : "PUT",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`,
@@ -59,7 +59,7 @@ export const ReviewProvider = (props) => {
     }
 
     const deleteRideReview = (review) => {
-        return fetch(`http://localhost:8000/ridereviews/${review.id}`, {
+        return fetch(`https://queued-server-tv5uq.ondigitalocean.app/ridereviews/${review.id}`, {
             method : "DELETE",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`,
