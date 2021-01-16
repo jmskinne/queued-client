@@ -34,6 +34,7 @@ export const WaitProvider = props => {
     }
 
     const getAllWaitTimes = () => {
+        //saves all wait Times into one array 
         const urls = [
             `${cors}https://api.themeparks.wiki/preview/parks/WaltDisneyWorldMagicKingdom/waittime`,
             `${cors}https://api.themeparks.wiki/preview/parks/WaltDisneyWorldEpcot/waittime`,

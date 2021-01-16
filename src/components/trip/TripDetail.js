@@ -14,7 +14,7 @@ import {WaitContext} from "../wait/WaitProvider"
 
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd'
 
-import "./Trip.css"
+
 
 
 export const TripDetail = (props) => {
@@ -22,7 +22,7 @@ export const TripDetail = (props) => {
     const {getTripById} = useContext(TripContext)
     const {getItinerariesByTrip, tripItineraries, createItinerary} = useContext(ItineraryContext)
     const {getRideFavoritesByBoolean, rideFavorites, rideFavoriteAction} = useContext(RideFavoriteContext)
-    const {getAllWaitTimes, allWaitTimes, createHistoricalWait} = useContext(WaitContext)
+    const {getAllWaitTimes, allWaitTimes} = useContext(WaitContext)
 
     const [trip, setTrip] = useState({})
     const [tripDates, setTripDates] = useState([])
@@ -51,6 +51,7 @@ export const TripDetail = (props) => {
     },[selectedDate])
 
     useEffect(() => {
+        //based on selected rides and number of selected, sets the request made to Googles Embed Maps API
             if (rideOrder.length === 1) {
                 let origin = `${rideOrder[0].ride.lat},${rideOrder[0].ride.longitude}`
                 let mapUrl =`https://www.google.com/maps/embed/v1/place?key=${api.mapped}${`\u0026`}q=${origin}`
@@ -73,6 +74,7 @@ export const TripDetail = (props) => {
         
     }, [selectedDate, rideOrder])
 
+    //generator function that creates an array of dates between when the trip starts and ends
     useEffect(() => {
         function* days(interval) {
             let cursor = interval.start?.startOf("day")
@@ -96,15 +98,13 @@ export const TripDetail = (props) => {
     }, [trip])
 
     useEffect(() => {
-        //not really necessary b/c was taken care of on the backend
+        //part of the date array creation and list, needs work
         const checkDates = tripDates.filter(d => !tripItineraries.some(i => DateTime.fromISO(i.park_date).toLocaleString() === d))
         setCheck(checkDates)
     }, [tripDates])
 
-    
-
-
     useEffect(() => {
+        //needs rework for the frontend, but duplicate array creation is forbidden from the server
         if (check.length !== tripDates.length && tripLength === 0) {
             tripDates.forEach(d => {
                 createItinerary({
@@ -119,22 +119,22 @@ export const TripDetail = (props) => {
         getRideFavoritesByBoolean(1)
     }, [rideItinerariesByDailyItinerary])
 
+
+    //rideOrder state after item has been dragged
     const handleDragEnd = (result) => {
         if(!result.destination) return;
-        
         const items = Array.from(rideOrder)
         const [rideReordered] = items.splice(result.source.index, 1)
         items.splice(result.destination.index, 0, rideReordered)
         updateRideOrder(items)
     }
 
+
+    //needs to optimized, currently any change triggers patch request for the entire array
     const handleSaveOrder = async (r, index) => {
         await updateRideItinerary(r.id, index + 1)
     }
 
-    
-
-    
 
     return (
         <div class="bg-warm-grey-200">

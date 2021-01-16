@@ -18,7 +18,7 @@ export const RideDetail = (props) => {
     
     const [ride, setRide] = useState({})
     
-    const [loaded, setLoaded] = useState(false)
+    
     const [waitTimes, setTimes] = useState([])
 
     const [showChart, setShowChart] = useState(false)
@@ -32,10 +32,13 @@ export const RideDetail = (props) => {
     }, [])
 
     useEffect(() => {
-        getHistoricalWaitByRide(rideId).then(setLoaded(true))
+        getHistoricalWaitByRide(rideId)
     }, [])
 
     useEffect(() => {
+        //iterates through the historialwait array for the selected ride(rideId), creates new object {date : "whateverTheDateIS", avg : "AveragewaitTimeForThatDate"} and starts running total of wait times for that date,
+        //if the date doesn't match, creates new objects and continues iteration
+        //resulting object is passed to Victorbary as array of objects
         let tmp = {}
         historicalWait.forEach(item => {
             let obj = tmp[DateTime.fromISO(item.created_on).toLocaleString(DateTime.DATE_SHORT)] = tmp[DateTime.fromISO(item.created_on).toLocaleString(DateTime.DATE_SHORT)] || {count: 0, total : 0}
@@ -144,7 +147,7 @@ export const RideDetail = (props) => {
                                         labels={({datum}) => datum.y}
                                         labelComponent={ <VictoryLabel dy={5} />}
                                         />
-                                    <VictoryAxis label="Date" style={{axisLabel: {padding: 20}}} />
+                                    <VictoryAxis label="Date" style={{axisLabel: {padding: 30}}} />
                                     <VictoryAxis dependentAxis label="Average Wait" style={{axisLabel: {padding : 30}}} />
                                 </VictoryChart>
                             :

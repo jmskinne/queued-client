@@ -16,7 +16,7 @@ import {RideList} from "./ride/RideList"
 
 import {ReviewProvider} from "./review/ReviewProvider"
 import { ReviewForm } from "./review/ReviewForm"
-import {ReviewList} from "./review/ReviewList"
+
 
 import {ItineraryProvider} from "./itinerary/ItineraryProvider"
 import {RideItineraryProvider} from "./rideitinerary/RideItineraryProvider"
@@ -58,7 +58,7 @@ export const ApplicationViews = (props) => {
                         <Route exact path = "/rides/:rideId(\w+\d+)" render={props => <RideDetail {...props} /> } />
                         <Route exact path ="/ridereviews/new/:rideId(\w+\d+)" render={props => <ReviewForm {...props} /> } />
                         <Route exact path ="/ridereviews/edit/:reviewId(\d+)" render={props => <ReviewForm {...props} /> } />
-                        {/* <Route exact path = "/ridereviews" render={props => <ReviewList {...props} /> } /> */}
+                        
                     </RideFavoriteProvider>  
                 </ReviewProvider>
             </RideProvider>
