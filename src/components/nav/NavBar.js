@@ -1,11 +1,15 @@
-import React, { useContext} from "react"
+import React, { useContext, useEffect} from "react"
 import { Link } from "react-router-dom"
 
 import {ProfileContext} from "../profile/ProfileProvider"
 
 export const NavBar = (props) => {
     
-    const {profile} = useContext(ProfileContext)
+    const {profile, getProfile} = useContext(ProfileContext)
+
+    useEffect(() => {
+        getProfile()
+    }, [])
     
     return (
     <nav class="bg-red-500">
@@ -16,10 +20,10 @@ export const NavBar = (props) => {
                 <div class="sm:block sm:ml-6">
                 <div class="flex space-x-4">
                     <div class="text-warm-grey-900 px-3 py-2 rounded-md text-sm font-bold mr-4">Welcome, {profile[0]?.user.username}</div>
-                    <a href="#" class="text-warm-gray-900 hover:bg-yellow-vivid-050 hover:text-warm-grey-900 px-3 py-2 rounded-md text-sm font-bold"><Link to="/" >Home</Link></a>
-                    <a href="#" class="text-warm-grey-900 hover:bg-yellow-vivid-050 hover:text-warm-grey-900 px-3 py-2 rounded-md text-sm font-bold"><Link to="/trips" >Trips</Link></a>
-                    <a href="#" class="text-warm-grey-900 hover:bg-yellow-vivid-050 hover:text-warm-grey-900 px-3 py-2 rounded-md text-sm font-bold"><Link to="/waittimes" >Wait Times</Link></a>
-                    <a href="#" class="text-warm-grey-900 hover:bg-yellow-vivid-050 hover:text-warm-grey-900 px-3 py-2 rounded-md text-sm font-bold"><Link to="/rides" >Rides</Link></a>
+                    <button class="text-warm-gray-900 hover:bg-yellow-vivid-050 hover:text-warm-grey-900 px-3 py-2 rounded-md text-sm font-bold"><Link to="/" >Home</Link></button>
+                    <button class="text-warm-grey-900 hover:bg-yellow-vivid-050 hover:text-warm-grey-900 px-3 py-2 rounded-md text-sm font-bold"><Link to="/trips" >Trips</Link></button>
+                    <button class="text-warm-grey-900 hover:bg-yellow-vivid-050 hover:text-warm-grey-900 px-3 py-2 rounded-md text-sm font-bold"><Link to="/waittimes" >Wait Times</Link></button>
+                    <button class="text-warm-grey-900 hover:bg-yellow-vivid-050 hover:text-warm-grey-900 px-3 py-2 rounded-md text-sm font-bold"><Link to="/rides" >Rides</Link></button>
                     
                         {
                             (localStorage.getItem("q_token") !== null) ? 
@@ -29,8 +33,8 @@ export const NavBar = (props) => {
                             }} class="text-warm-grey-900 hover:bg-yellow-vivid-050 hover:text-warm-grey-900 px-3 py-2 rounded-md text-sm font-bold">Sign Out</button> 
                             : 
                             <>
-                            <a href="#" class="text-warm-grey-900 hover:bg-yellow-vivid-050 hover:text-warm-grey-900 px-3 py-2 rounded-md text-sm font-bold"><Link to= "/login" >Login</Link></a>
-                            <a href="#" class="text-warm-grey-900 hover:bg-yellow-vivid-050 hover:text-warm-grey-900 px-3 py-2 rounded-md text-sm font-bold"><Link to= "/register" >Register</Link></a>
+                            <button class="text-warm-grey-900 hover:bg-yellow-vivid-050 hover:text-warm-grey-900 px-3 py-2 rounded-md text-sm font-bold"><Link to= "/login" >Login</Link></button>
+                            <button class="text-warm-grey-900 hover:bg-yellow-vivid-050 hover:text-warm-grey-900 px-3 py-2 rounded-md text-sm font-bold"><Link to= "/register" >Register</Link></button>
                             </>
                         }
                         {
