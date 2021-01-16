@@ -1,7 +1,7 @@
 import {DateTime, Interval} from "luxon"
 import React, {useContext, useEffect, useState} from 'react'
 import {Link} from "react-router-dom"
-import api from "../../Settings.js"
+// import api from "../../Settings.js"
 import {TripContext} from "./TripProvider"
 import {ItineraryContext} from "../itinerary/ItineraryProvider"
 
@@ -36,7 +36,7 @@ export const TripDetail = (props) => {
     const [showMap, setShowMap] = useState(false)
     const [parsedMap, setParsedMap] = useState('')
     
-
+    
     const tripId = parseInt(props.match.params.tripId)
 
     useEffect(() => {
@@ -54,20 +54,20 @@ export const TripDetail = (props) => {
         //based on selected rides and number of selected, sets the request made to Googles Embed Maps API
             if (rideOrder.length === 1) {
                 let origin = `${rideOrder[0].ride.lat},${rideOrder[0].ride.longitude}`
-                let mapUrl =`https://www.google.com/maps/embed/v1/place?key=${api.mapped}${`\u0026`}q=${origin}`
+                let mapUrl =`https://www.google.com/maps/embed/v1/place?key=${REACT_GMAPS}${`\u0026`}q=${origin}`
                 let mapHTML = <iframe width="600" height="450" src={(`${mapUrl}`)} />
                 setParsedMap(mapHTML)
             } else if(rideOrder.length === 2 ) {
                 let origin = `${rideOrder[0].ride.lat},${rideOrder[0].ride.longitude}`
                 let destination = `${rideOrder[rideOrder.length - 1].ride.lat},${rideOrder[rideOrder.length - 1].ride.longitude}`
-                let mapUrl =`https://www.google.com/maps/embed/v1/directions?key=${api.mapped}&mode=walking${`\u0026`}origin=${origin}${`\u0026`}destination=${destination}`
+                let mapUrl =`https://www.google.com/maps/embed/v1/directions?key=${REACT_GMAPS}&mode=walking${`\u0026`}origin=${origin}${`\u0026`}destination=${destination}`
                 let mapHTML = <iframe width="600" height="450" src={(`${mapUrl}`)} />
                 setParsedMap(mapHTML)
             } else if(rideOrder.length >= 3) {
                 let origin = `${rideOrder[0].ride.lat},${rideOrder[0].ride.longitude}`
                 let destination = `${rideOrder[rideOrder.length - 1].ride.lat},${rideOrder[rideOrder.length - 1].ride.longitude}`
                 let ways = rideOrder.map(w => `${w.ride.lat},${w.ride.longitude}`).slice(1, rideOrder.length - 1).join("|").split().toString()
-                let mapUrl =`https://www.google.com/maps/embed/v1/directions?key=${api.mapped}&mode=walking${`\u0026`}origin=${origin}${`\u0026`}destination=${destination}${`\u0026`}waypoints=${ways}`
+                let mapUrl =`https://www.google.com/maps/embed/v1/directions?key=${REACT_GMAPS}&mode=walking${`\u0026`}origin=${origin}${`\u0026`}destination=${destination}${`\u0026`}waypoints=${ways}`
                 let mapHTML = <iframe width="600" height="450" src={(`${mapUrl}`)} />
                 setParsedMap(mapHTML)
             }
