@@ -10,7 +10,7 @@ export const Register = (props) => {
     const verifyPassword = React.createRef()
     const passwordDialog = React.createRef()
     const profile_image_url = React.createRef()
-
+    const cors = "https://blooming-gorge-83806.herokuapp.com/"
 
     const handleRegister = (e) => {
         e.preventDefault()
@@ -25,7 +25,7 @@ export const Register = (props) => {
                 "profile_image_url" : profile_image_url.current.value
             }
 
-            return fetch("https://queued-server-tv5uq.ondigitalocean.app/register", {
+            return fetch(`${cors}https://queued-server-tv5uq.ondigitalocean.app/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 
 
 export const Login = props => {
-   
+    const cors = "https://blooming-gorge-83806.herokuapp.com/"
 
     const email = React.createRef()
     const password = React.createRef()
@@ -14,12 +14,12 @@ export const Login = props => {
 
     const handleLogin = (e) => {
         e.preventDefault()
-        return fetch("https://queued-server-tv5uq.ondigitalocean.app/login", {
+        return fetch(`${cors}https://queued-server-tv5uq.ondigitalocean.app/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "Access-Control-Allow-Origin": "*"
+                
             },
             body: JSON.stringify({
                 username: email.current.value,
