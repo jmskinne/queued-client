@@ -25,12 +25,12 @@ export const Register = (props) => {
                 "profile_image_url" : profile_image_url.current.value
             }
 
-            return fetch(`https://queued-server-tv5uq.ondigitalocean.app/register`, {
+            return fetch(`https://queued-server-kft68.ondigitalocean.app/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "application/json",
-                    "Access-Control-Allow-Origin": "*"
+                    
                 },
                 body: JSON.stringify(newUser)
             })
