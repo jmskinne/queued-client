@@ -12,7 +12,7 @@ import {WaitList} from "./wait/WaitList"
 import { RideProvider } from "./ride/RideProvider"
 import {RideDetail} from "./ride/RideDetail"
 import {RideList} from "./ride/RideList"
-import {ProfileProvider} from "./profile/ProfileProvider"
+
 
 import {ReviewProvider} from "./review/ReviewProvider"
 import { ReviewForm } from "./review/ReviewForm"
@@ -30,7 +30,7 @@ import { HistoricalWaits } from "./wait/HistoricalWait"
 export const ApplicationViews = (props) => {
     return (
         <>
-        <ProfileProvider>
+        
         <TripProvider>
             <ItineraryProvider>
                     <RideItineraryProvider>
@@ -50,8 +50,8 @@ export const ApplicationViews = (props) => {
                 </RideItineraryProvider>
             </ItineraryProvider>
         </TripProvider>
-        </ProfileProvider>
-        <ProfileProvider>
+        
+        
         <WaitProvider>
             <RideProvider>
                 <ReviewProvider>
@@ -66,7 +66,7 @@ export const ApplicationViews = (props) => {
                 </ReviewProvider>
             </RideProvider>
         </WaitProvider>
-        </ProfileProvider>
+        
         </>
     )
 }
