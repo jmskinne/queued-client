@@ -10,7 +10,7 @@ import { WaitContext } from "../wait/WaitProvider"
 
 
 export const RideDetail = (props) => {
-    const {profile} = useContext(ProfileContext)
+    const {profile, getProfile} = useContext(ProfileContext)
     const {getRideById} = useContext(RideContext)
     const {rideReviews, getReviewsByRide, deleteRideReview} = useContext(ReviewContext)
     const {historicalWait, getHistoricalWaitByRide} = useContext(WaitContext)
@@ -28,7 +28,7 @@ export const RideDetail = (props) => {
         
         getRideById(rideId).then(r => setRide(r))
         getReviewsByRide(rideId)
-        
+        getProfile()
     }, [])
 
     useEffect(() => {
