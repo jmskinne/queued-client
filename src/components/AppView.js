@@ -43,7 +43,7 @@ export const ApplicationViews = (props) => {
                                     <Route exact path = "/trips/:tripId(\d+)" render={props => <TripDetail {...props} /> } />
                                     <Route exact path = "/rideitineraries/itinerary/:itineraryId(\d+)" render={props => <RideItineraryList {...props} />} />
                                     <Route exact path = "/" render={props => <LandingPage {...props} /> } />
-                                    {/* <HistoricalWaits /> */}
+                                    <HistoricalWaits />
                                 </RideFavoriteProvider>
                             </RideProvider>
                         </WaitProvider>
