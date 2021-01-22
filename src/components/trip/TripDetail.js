@@ -203,19 +203,19 @@ export const TripDetail = (props) => {
                 }
             </div>
             
-            <div class="max-w">
+            <div class="flex flex-wrap overflow-hidden justify-center">
                 <DragDropContext onDragEnd={handleDragEnd}>
                     <Droppable droppableId="theRide">
                         {(provided) => (
-                            <div class="ride_order items-center h-screen" {...provided.draggableProps} ref={provided.innerRef}>
+                            <div class="ride_order items-center" {...provided.draggableProps} ref={provided.innerRef}>
                                
                     {
                         rideOrder.map((r, index) => {
                             const theWait = allWaitTimes.find(w => w.id === r.ride_id) || {}
                             return <Draggable key={r.id} draggableId={r.ride_id} index={index} onClick={handleSaveOrder(r, index)}>
                                 {(provided) => (
-                                    <div class="my-2 px-2 w-lg overflow-hidden m-52">
-                                        <div class="bg-yellow-vivid-050 shadow-xl rounded-lg overflow-hidden py-6 mb-2"
+                                    <div class="my-7 px-2 w-full overflow-hidden sm:my-2 sm:px-2 xl:my-2 xl:px-2">
+                                        <div class="bg-yellow-vivid-050 shadow-xl rounded-lg overflow-hidden py-6 mb-2 xl:px-4"
                                             {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
                                             <div class= "flex justify-evenly overflow-hidden xl:-mx-3">
                                             {
