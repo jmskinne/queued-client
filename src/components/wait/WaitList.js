@@ -54,7 +54,7 @@ export const WaitList = (props) => {
         <>
         <div class="bg-warm-grey-200">
             <div class="max-w-7xl mx-auto py-2 sm:px-6 lg:px-8">
-                <div class="lg:text-center">
+                <div class="lg:text-center sm:text-center">
                     <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-warm-grey-900 sm:text-4xl">
                         Wait Times
                     </p>
