@@ -1,12 +1,12 @@
-import React, { useContext } from "react"
+import React from "react"
 import { Link } from "react-router-dom"
-// import "./Auth.css"
+
 
 
 
 
 export const Login = props => {
-    const cors = "https://blooming-gorge-83806.herokuapp.com/"
+    
 
     const email = React.createRef()
     const password = React.createRef()

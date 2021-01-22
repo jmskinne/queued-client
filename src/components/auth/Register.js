@@ -1,6 +1,6 @@
 import React from "react"
 import { Link } from "react-router-dom"
-// import "./Auth.css"
+
 
 export const Register = (props) => {
     const firstName = React.createRef()
@@ -10,7 +10,7 @@ export const Register = (props) => {
     const verifyPassword = React.createRef()
     const passwordDialog = React.createRef()
     const profile_image_url = React.createRef()
-    const cors = "https://blooming-gorge-83806.herokuapp.com/"
+    
 
     const handleRegister = (e) => {
         e.preventDefault()
