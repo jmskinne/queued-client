@@ -147,7 +147,7 @@ export const RideDetail = (props) => {
                                         labels={({datum}) => datum.y}
                                         labelComponent={ <VictoryLabel dy={5} />}
                                         />
-                                    <VictoryAxis tickLabelComponent={<VictoryLabel angle={-45} textAnchor="end"/>} label="Date" style={{
+                                    <VictoryAxis tickLabelComponent={<VictoryLabel angle={-45} textAnchor="end"/>} style={{
                                         axisLabel: {padding: 30},
                                         tickLabels : {fontSize : 6},
                                         
