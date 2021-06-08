@@ -8,7 +8,7 @@ export const RideProvider = (props) => {
     
 
     const getRides = () => {
-        return fetch("https://queued-server-kft68.ondigitalocean.app/rides", {
+        return fetch("https://queued-server-qav5d.ondigitalocean.app/rides", {
         headers: {
             "Authorization": `Token ${localStorage.getItem("q_token")}`
             }
@@ -18,7 +18,7 @@ export const RideProvider = (props) => {
     }
 
     const getRideById = (rideId) => {
-        return fetch(`https://queued-server-kft68.ondigitalocean.app/rides/${rideId}`, {
+        return fetch(`https://queued-server-qav5d.ondigitalocean.app/rides/${rideId}`, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`
             }
@@ -27,7 +27,7 @@ export const RideProvider = (props) => {
     }
 
     const addRideFromAPI = (newRide) => {
-        return fetch("https://queued-server-kft68.ondigitalocean.app/rides", {
+        return fetch("https://queued-server-qav5d.ondigitalocean.app/rides", {
             method : "POST",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`,
@@ -38,7 +38,7 @@ export const RideProvider = (props) => {
     }
 
     const getRideBySearch = (search) => {
-        return fetch(`https://queued-server-kft68.ondigitalocean.app/rides?q=${search}`, {
+        return fetch(`https://queued-server-qav5d.ondigitalocean.app/rides?q=${search}`, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`
                 }
@@ -48,7 +48,7 @@ export const RideProvider = (props) => {
     }
 
     const getSortedRides = () => {
-        return fetch("https://queued-server-kft68.ondigitalocean.app/rides", {
+        return fetch("https://queued-server-qav5d.ondigitalocean.app/rides", {
         headers: {
             "Authorization": `Token ${localStorage.getItem("q_token")}`
             }

@@ -25,7 +25,7 @@ export const Register = (props) => {
                 "profile_image_url" : profile_image_url.current.value
             }
 
-            return fetch(`https://queued-server-kft68.ondigitalocean.app/register`, {
+            return fetch(`https://queued-server-qav5d.ondigitalocean.app/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

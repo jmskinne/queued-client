@@ -7,7 +7,7 @@ export const ItineraryProvider = (props) => {
     const [tripItineraries, setTripItineraries] = useState([])
 
     const getAllItineraries = () => {
-        return fetch("https://queued-server-kft68.ondigitalocean.app/itineraries", {
+        return fetch("https://queued-server-qav5d.ondigitalocean.app/itineraries", {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`
             }
@@ -17,7 +17,7 @@ export const ItineraryProvider = (props) => {
     }
 
     const getItineraryById = (itineraryId) => {
-        return fetch(`https://queued-server-kft68.ondigitalocean.app/itineraries/${itineraryId}`, {
+        return fetch(`https://queued-server-qav5d.ondigitalocean.app/itineraries/${itineraryId}`, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`
             }
@@ -26,7 +26,7 @@ export const ItineraryProvider = (props) => {
     }
 
     const getItinerariesByTrip = (tripId) => {
-        return fetch(`https://queued-server-kft68.ondigitalocean.app/itineraries?trip_id=${tripId}`, {
+        return fetch(`https://queued-server-qav5d.ondigitalocean.app/itineraries?trip_id=${tripId}`, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`
             }
@@ -36,7 +36,7 @@ export const ItineraryProvider = (props) => {
     }
 
     const createItinerary = (newItinerary) => {
-        return fetch("https://queued-server-kft68.ondigitalocean.app/itineraries", {
+        return fetch("https://queued-server-qav5d.ondigitalocean.app/itineraries", {
             method : "POST",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`,
@@ -47,7 +47,7 @@ export const ItineraryProvider = (props) => {
     }
 
     const updateItinerary = (itineraryId, newItinerary) => {
-        return fetch(`https://queued-server-kft68.ondigitalocean.app/itineraries/${itineraryId}`, {
+        return fetch(`https://queued-server-qav5d.ondigitalocean.app/itineraries/${itineraryId}`, {
             method : "PUT",
             headers : {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`,
@@ -58,7 +58,7 @@ export const ItineraryProvider = (props) => {
     }
 
     const deleteItinerary = (itinerary) => {
-        return fetch(`https://queued-server-kft68.ondigitalocean.app/itineraries/${itinerary.id}`, {
+        return fetch(`https://queued-server-qav5d.ondigitalocean.app/itineraries/${itinerary.id}`, {
             method : "DELETE",
             headers : {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`,

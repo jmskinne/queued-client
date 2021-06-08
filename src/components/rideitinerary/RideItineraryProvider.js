@@ -8,7 +8,7 @@ export const RideItineraryProvider = (props) => {
 
 
     const createRideItinerary = (newRideItinerary) => {
-        return fetch("https://queued-server-kft68.ondigitalocean.app/rideitineraries", {
+        return fetch("https://queued-server-qav5d.ondigitalocean.app/rideitineraries", {
             method : "POST",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`,
@@ -19,7 +19,7 @@ export const RideItineraryProvider = (props) => {
     }
 
     const deleteRideItinerary = (rideItinerary) => {
-        return fetch(`https://queued-server-kft68.ondigitalocean.app/rideitineraries/${rideItinerary.id}`, {
+        return fetch(`https://queued-server-qav5d.ondigitalocean.app/rideitineraries/${rideItinerary.id}`, {
             method : "DELETE",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`,
@@ -32,7 +32,7 @@ export const RideItineraryProvider = (props) => {
     }
 
     const getRideItineraryById = (rideItineraryId) => {
-        return fetch(`https://queued-server-kft68.ondigitalocean.app/rideitineraries/${rideItineraryId}`, {
+        return fetch(`https://queued-server-qav5d.ondigitalocean.app/rideitineraries/${rideItineraryId}`, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`,
             }
@@ -41,7 +41,7 @@ export const RideItineraryProvider = (props) => {
     }
 
     const getRideItinerariesByItineraryId = (itineraryId) => {
-        return fetch(`https://queued-server-kft68.ondigitalocean.app/rideitineraries?itinerary_id=${itineraryId}`, {
+        return fetch(`https://queued-server-qav5d.ondigitalocean.app/rideitineraries?itinerary_id=${itineraryId}`, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`,
             }
@@ -51,7 +51,7 @@ export const RideItineraryProvider = (props) => {
     }
 
     const updateRideItinerary = (rideItineraryId, rideOrder) => {
-        return fetch(`https://queued-server-kft68.ondigitalocean.app/rideitineraries/${rideItineraryId}`, {
+        return fetch(`https://queued-server-qav5d.ondigitalocean.app/rideitineraries/${rideItineraryId}`, {
             method: "PATCH",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`,

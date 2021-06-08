@@ -14,7 +14,7 @@ export const Login = props => {
 
     const handleLogin = (e) => {
         e.preventDefault()
-        return fetch(`https://queued-server-kft68.ondigitalocean.app/login`, {
+        return fetch(`https://queued-server-qav5d.ondigitalocean.app/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

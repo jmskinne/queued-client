@@ -11,7 +11,7 @@ export const TripProvider = (props) => {
 
 
     const getTrips = () => {
-        return fetch("https://queued-server-kft68.ondigitalocean.app/trips", {
+        return fetch("https://queued-server-qav5d.ondigitalocean.app/trips", {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`
             }
@@ -21,7 +21,7 @@ export const TripProvider = (props) => {
     }
 
     const getTripById = (tripId) => {
-        return fetch(`https://queued-server-kft68.ondigitalocean.app/trips/${tripId}`, {
+        return fetch(`https://queued-server-qav5d.ondigitalocean.app/trips/${tripId}`, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`
             }
@@ -30,7 +30,7 @@ export const TripProvider = (props) => {
     }
 
     const createTrip = (newTrip) => {
-        return fetch("https://queued-server-kft68.ondigitalocean.app/trips", {
+        return fetch("https://queued-server-qav5d.ondigitalocean.app/trips", {
             method : "POST",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`,
@@ -41,7 +41,7 @@ export const TripProvider = (props) => {
     }
 
     const updateTrip = (tripId, newTrip) => {
-        return fetch(`https://queued-server-kft68.ondigitalocean.app/trips/${tripId}`, {
+        return fetch(`https://queued-server-qav5d.ondigitalocean.app/trips/${tripId}`, {
             method : "PUT",
             headers : {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`,
@@ -52,7 +52,7 @@ export const TripProvider = (props) => {
     }
 
     const deleteTrip = (trip) => {
-        return fetch(`https://queued-server-kft68.ondigitalocean.app/trips/${trip.id}`, {
+        return fetch(`https://queued-server-qav5d.ondigitalocean.app/trips/${trip.id}`, {
             method : "DELETE",
             headers : {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`,   
@@ -61,7 +61,7 @@ export const TripProvider = (props) => {
     }
 
     const getThreeUpcomingTrips = () => {
-        return fetch("https://queued-server-kft68.ondigitalocean.app/trips", {
+        return fetch("https://queued-server-qav5d.ondigitalocean.app/trips", {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`
             }

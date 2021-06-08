@@ -6,7 +6,7 @@ export const RideFavoriteProvider = (props) => {
     const [rideFavorites, setRideFavorites] = useState([])
 
     const createRideFavorite = (newRideFavorite) => {
-        return fetch("https://queued-server-kft68.ondigitalocean.app/ridefavorites", {
+        return fetch("https://queued-server-qav5d.ondigitalocean.app/ridefavorites", {
             method : "POST",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`,
@@ -17,7 +17,7 @@ export const RideFavoriteProvider = (props) => {
     }
 
     const updateRideFavorite = (rideFavoriteId, favorite) => {
-        return fetch(`https://queued-server-kft68.ondigitalocean.app/ridefavorites/${rideFavoriteId}`, {
+        return fetch(`https://queued-server-qav5d.ondigitalocean.app/ridefavorites/${rideFavoriteId}`, {
             method : "PATCH",
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`,
@@ -28,7 +28,7 @@ export const RideFavoriteProvider = (props) => {
     }
 
     const getRideFavoritesByBoolean = (trueOrFalse) => {
-        return fetch(`https://queued-server-kft68.ondigitalocean.app/ridefavorites?favorite=${trueOrFalse}`, {
+        return fetch(`https://queued-server-qav5d.ondigitalocean.app/ridefavorites?favorite=${trueOrFalse}`, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`,
             }
@@ -39,7 +39,7 @@ export const RideFavoriteProvider = (props) => {
     }
 
     const rideFavoriteAction = (ride_id, favorite) => {
-        return fetch(`https://queued-server-kft68.ondigitalocean.app/rides/${ride_id}/favorite`, {
+        return fetch(`https://queued-server-qav5d.ondigitalocean.app/rides/${ride_id}/favorite`, {
             method : "POST",
             headers : {
                 "Authorization": `Token ${localStorage.getItem("q_token")}`,
